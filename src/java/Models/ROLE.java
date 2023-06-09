@@ -4,7 +4,7 @@ package Models;
  *
  * @author nguyenson
  */
-public enum ROLE {
+public enum Role {
     USER,
     ADMIN
 }
