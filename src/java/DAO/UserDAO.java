@@ -16,6 +16,10 @@ public interface UserDAO {
 
     User getUserByUsername(String username);
 
+    User getUserByEmail(String email);
+
+    User getUserByGoogleEmail(String email);
+
     User login(String username, String password);
 
     User updateUser(User user);

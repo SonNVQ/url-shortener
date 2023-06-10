@@ -104,6 +104,54 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public User getUserByEmail(String email) {
+        String sql = "select username, password, first_name, last_name, email, google_email from users where email = ?";
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setNString(1, email);
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    User user = User.builder().id(rs.getInt("id"))
+                            .username(rs.getNString("username"))
+                            .firstName(rs.getNString("username"))
+                            .lastName(rs.getNString("last_name"))
+                            .email(rs.getNString("email"))
+                            .googleEmail(rs.getNString("google_email"))
+                            .build();
+                    return user;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public User getUserByGoogleEmail(String email) {
+        String sql = "select username, password, first_name, last_name, email, google_email from users where google_email = ?";
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setNString(1, email);
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    User user = User.builder().id(rs.getInt("id"))
+                            .username(rs.getNString("username"))
+                            .firstName(rs.getNString("username"))
+                            .lastName(rs.getNString("last_name"))
+                            .email(rs.getNString("email"))
+                            .googleEmail(rs.getNString("google_email"))
+                            .build();
+                    return user;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
     public User login(String username, String password) {
         String sql = "select username, password, first_name, last_name, email, google_email from users where username = ?, password = ?";
         try ( Connection cn = dbContext.getConnection();
