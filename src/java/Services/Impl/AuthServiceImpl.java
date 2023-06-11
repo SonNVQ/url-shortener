@@ -1,7 +1,6 @@
 package Services.Impl;
 
 import Constants.Regex;
-import DAO.Impl.RoleDAOImpl;
 import DAO.Impl.UserDAOImpl;
 import DAO.UserDAO;
 import Models.Role;
@@ -10,17 +9,14 @@ import Services.AuthService;
 import com.password4j.BcryptFunction;
 import com.password4j.Password;
 import com.password4j.types.Bcrypt;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author nguyenson
  */
 public class AuthServiceImpl implements AuthService {
 
-    private UserDAO userDAO;
-    private BcryptFunction bcrypt;
+    private final UserDAO userDAO;
+    private final BcryptFunction bcrypt;
 
     public AuthServiceImpl() {
         userDAO = new UserDAOImpl();
