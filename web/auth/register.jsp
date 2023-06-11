@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Login</title>
+        <title>Sign up</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <!-- Font Awesome -->
@@ -56,27 +56,32 @@
                             <div class="card shadow-2-strong" style="border-radius: 1rem">
                                 <div class="card-body p-5 text-center">
                                     <h3 class="mb-3">SIGN UP</h3>
-                                    <c:if test="${status eq 'failed'}">
-                                        <p class="text-warning">Added failed!</p>
-                                    </c:if>
+
                                     <c:if test="${status eq 'successful'}">
-                                        <p class="text-success">Added successfully!</p>
+                                        <p class="text-success">Successfully! Please go to sign in!</p>
                                     </c:if>
                                     <form action="register" method="POST">
 
-                                        <div class="form-outline mb-4">
+                                        <div class="form-outline">
                                             <input
                                                 type="username"
                                                 name="username"
                                                 id="typeUsernameX-2"
                                                 class="form-control form-control-lg"
+                                                value="${username}"
                                                 />
                                             <label class="form-label" for="typeUsernameX-2"
                                                    >Username</label
                                             >
                                         </div>
+                                        <c:if test="${USERNAME_FORMAT_INVALID eq true}">
+                                            <p class="text-warning text-start mt-1">Username format is invalid!</p>
+                                        </c:if>
+                                        <c:if test="${USERNAME_IS_EXISTED eq true}">
+                                            <p class="text-warning text-start mt-1">Username is existed!</p>
+                                        </c:if>
 
-                                        <div class="form-outline mb-4">
+                                        <div class="form-outline mt-3">
                                             <input
                                                 type="password"
                                                 name="password"
@@ -87,15 +92,19 @@
                                                    >Password</label
                                             >
                                         </div>
+                                        <c:if test="${PASSWORD_FORMAT_INVALID eq true}">
+                                            <p class="text-warning text-start mt-1">Password format is invalid!</p>
+                                        </c:if>
 
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <div class="form-outline mb-4">
+                                                <div class="form-outline mt-3">
                                                     <input
                                                         type="text"
                                                         name="firstname"
                                                         id="typePasswordX-2"
                                                         class="form-control form-control-lg"
+                                                        value="${firstname}"
                                                         />
                                                     <label class="form-label" for="typePasswordX-2"
                                                            >First name</label
@@ -103,38 +112,52 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="form-outline mb-4">
+                                                <div class="form-outline mt-3">
                                                     <input
                                                         type="text"
                                                         name="lastname"
                                                         id="typePasswordX-2"
                                                         class="form-control form-control-lg"
+                                                        value="${lastname}"
                                                         />
                                                     <label class="form-label" for="typePasswordX-2"
                                                            >Last name</label
                                                     >
                                                 </div>
                                             </div>
+                                            <c:if test="${LASTNAME_IS_EMPTY eq true}">
+                                                <p class="text-warning text-start mt-1">Last name must not be empty!</p>
+                                            </c:if>
                                         </div>
 
-                                        <div class="form-outline mb-4">
+                                        <div class="form-outline my-3">
                                             <input
                                                 type="email"
                                                 name="email"
                                                 id="typePasswordX-2"
                                                 class="form-control form-control-lg"
+                                                value="${email}"
                                                 />
                                             <label class="form-label" for="typePasswordX-2"
                                                    >Email</label
                                             >
                                         </div>
+                                        <c:if test="${EMAIL_FORMAT_INVALID eq true}">
+                                            <p class="text-warning text-start mt-1">Email format is invalid!</p>
+                                        </c:if>
+                                        <c:if test="${EMAIL_IS_EXISTED eq true}">
+                                            <p class="text-warning text-start mt-1">Email is existed!</p>
+                                        </c:if>
 
-                                        <button
-                                            class="btn btn-warning btn-lg btn-block"
-                                            type="submit"
-                                            >
-                                            Register
-                                        </button>
+                                        <div class="mt-4">
+                                            <button
+                                                class="btn btn-warning btn-lg btn-block"
+                                                type="submit"
+                                                >
+                                                Register
+                                            </button>
+                                        </div>
+
                                     </form>
                                 </div>
                             </div>

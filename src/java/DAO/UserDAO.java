@@ -2,7 +2,9 @@ package DAO;
 
 import Models.Role;
 import Models.User;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -20,15 +22,13 @@ public interface UserDAO {
 
     User getUserByGoogleEmail(String email);
 
-    User login(String username, String password);
-
     User updateUser(User user);
 
     User deleteUser(User user);
 
     User addUserRole(User user, Role role);
 
-    List<Role> getRoles(User user);
+    HashSet<Role> getRoles(User user);
 
     User deleteUserRole(User user, Role role);
 
