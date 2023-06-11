@@ -10,9 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,20 +37,40 @@ public class UserDAOImpl implements UserDAO {
                  PreparedStatement ps = cn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setNString(1, user.getUsername());
             ps.setNString(2, user.getPassword());
-            ps.setNString(3, user.getFirstName());
-            ps.setNString(4, user.getLastName());
-            ps.setNString(5, user.getEmail());
-            ps.setNString(6, user.getGoogleEmail());
+            if (user.getFirstName() == null) {
+                ps.setNull(3, Types.NVARCHAR);
+            } else {
+                ps.setNString(3, user.getFirstName());
+            }
+            if (user.getLastName() == null) {
+                ps.setNull(4, Types.NVARCHAR);
+            } else {
+                ps.setNString(4, user.getLastName());
+            }
+            if (user.getEmail() == null) {
+                ps.setNull(5, Types.NVARCHAR);
+            } else {
+                ps.setNString(5, user.getEmail());
+            }
+            if (user.getUsername() == null) {
+                ps.setNull(6, Types.NVARCHAR);
+            } else {
+                ps.setNString(6, user.getGoogleEmail());
+            }
             int affectedRow = ps.executeUpdate();
             if (affectedRow > 0) {
                 try ( ResultSet rs = ps.getGeneratedKeys()) {
-                    user.setPassword(null);
-                    user.setId(rs.getInt("id"));
+                    if (rs.next()) {
+                        user.setId(rs.getInt(1));
+                        user.setPassword(null);
+                        return user;
+                    }
                 }
                 return user;
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new InternalError(ex);
         }
         return null;
     }
@@ -223,12 +243,14 @@ public class UserDAOImpl implements UserDAO {
         try ( Connection cn = dbContext.getConnection();
                  PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setInt(1, user.getId());
+            ps.setInt(2, roleID.intValue());
             int affectedRow = ps.executeUpdate();
             if (affectedRow > 0) {
                 return user;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new InternalError(ex);
         }
         return null;
     }

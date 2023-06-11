@@ -25,7 +25,7 @@ public class DBContextImpl implements DBContext {
     /*Insert your other code right after this comment
     Change/update information of your database connection, DO NOT change name of instance variables in this class*/
     private final String serverName = "localhost";
-    private final String dbName = "url-shortener";
+    private final String dbName = "url_shortener";
     private final String portNumber = "1433";
     private final String userID = "sa";
     private final String password = "sa";
