@@ -12,17 +12,14 @@
         <title>Sign in</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <!-- Font Awesome -->
         <link
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
             rel="stylesheet"
             />
-        <!-- Google Fonts -->
         <link
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
             rel="stylesheet"
             />
-        <!-- MDB -->
         <link
             href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css"
             rel="stylesheet"
@@ -57,25 +54,46 @@
                                 <div class="card-body p-5 text-center">
                                     <h3 class="mb-3">SIGN IN</h3>
 
-                                    <button
-                                        class="btn btn-lg btn-block btn-primary"
-                                        style="background-color: #dd4b39"
-                                        type="submit"
-                                        >
-                                        <i class="fab fa-google me-2"></i> Continue with google
-                                    </button>
+                                    <!--                                    <button
+                                                                            class="btn btn-lg btn-block btn-primary"
+                                                                            style="background-color: #dd4b39"
+                                                                            type="submit"
+                                                                            >
+                                                                            <i class="fab fa-google me-2"></i> Continue with google
+                                                                        </button>-->
+
+                                    <div>
+                                        <div id="g_id_onload"
+                                             data-client_id="205125337007-vp8gcc90umgim1krgh90e6lcafj12obf.apps.googleusercontent.com"
+                                             data-context="use"
+                                             data-ux_mode="popup"
+                                             data-login_uri="http://localhost:8088/url/auth/login-google"
+                                             data-auto_prompt="false">
+                                        </div>
+
+                                        <div class="g_id_signin"
+                                             data-type="standard"
+                                             data-shape="rectangular"
+                                             data-theme="outline"
+                                             data-text="continue_with"
+                                             data-size="large"
+                                             data-logo_alignment="left"
+                                             data-width="400">
+                                        </div>
+                                    </div>
 
                                     <div class="divider d-flex align-items-center my-3">
                                         <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
                                     </div>
+                                    <c:choose>
+                                        <c:when test="${status eq 'failed'}">
+                                            <p class="text-warning">Wrong username or password!</p>
+                                        </c:when>
+                                        <c:when test="${status eq 'google-failed'}">
+                                            <p class="text-success">Successfully!</p>
+                                        </c:when>  
+                                    </c:choose>
 
-                                    <c:if test="${status eq 'failed'}">
-                                        <p class="text-warning">Wrong username or password!</p>
-                                    </c:if>
-                                    <c:if test="${status eq 'successful'}">
-                                        <p class="text-success">Successfully!</p>
-                                    </c:if>
-                                        
                                     <form action="login" method="POST">
                                         <div class="form-outline">
                                             <input
@@ -105,7 +123,7 @@
                                             >
                                         </div>
                                         <c:if test="${false}">
-                                            <p class="text-danger text-start mt-1">Password is invalid!</p>
+                                            <p class="text-danger text-start mt-1">Password format is invalid!</p>
                                         </c:if>
 
                                         <div
@@ -150,7 +168,45 @@
                     </div>
                 </div>
             </div>
+            <div id="myModal" class="modal fade" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-warning">Warning</h5>
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <c:choose>
+                                <c:when test="${status eq 'google-failed'}">
+                                    <p>Login failed. Please try again!</p>
+                                </c:when>  
+                                <c:when test="${REGISTER_FAILED__EMAIL_IS_EXISTED}">
+                                    <p>Registration failed, email already exists. <br>
+                                       Please continue or register with another google account!
+                                    </p>
+                                </c:when> 
+                                <c:when test="${REGISTER_FAILED}">
+                                    <p>Register failed. Please try again!</p>
+                                </c:when>     
+                            </c:choose>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
+
+        <c:if test="${status eq 'google-failed' || REGISTER_FAILED__EMAIL_IS_EXISTED || REGISTER_FAILED}">
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    myModal = new mdb.Modal(document.getElementById('myModal'));
+                    myModal.show();
+                });
+            </script>
+        </c:if>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
         <script
             type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"

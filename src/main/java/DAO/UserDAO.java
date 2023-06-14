@@ -21,6 +21,10 @@ public interface UserDAO {
     User getUserByEmail(String email);
 
     User getUserByGoogleEmail(String email);
+    
+    boolean isUsernameExisted(String username);
+    
+    boolean isEmailExisted(String email);
 
     User updateUser(User user);
 

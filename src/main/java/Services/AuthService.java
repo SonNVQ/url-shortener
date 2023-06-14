@@ -1,5 +1,6 @@
 package Services;
 
+import Models.GoogleUser;
 import Models.Role;
 import Models.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,15 +12,17 @@ import java.util.HashSet;
  */
 public interface AuthService {
 
-    User login(String username, String password) throws IllegalArgumentException;
+    User login(HttpServletRequest request) throws IllegalArgumentException;
 
     User register(User user) throws IllegalArgumentException;
-    
-    HashSet<Role> getUserRoles(User user);
-    
+
     boolean checkRole(HttpServletRequest request, Role role);
-    
+
+    boolean isGuest(HttpServletRequest request);
+
     boolean isUser(HttpServletRequest request);
-    
+
     boolean isAdmin(HttpServletRequest request);
+
+    User googleLogin(HttpServletRequest request);
 }

@@ -24,15 +24,15 @@ import java.util.logging.Logger;
  * @author nguyenson
  */
 public class UserDAOImpl implements UserDAO {
-    
+
     DBContext dbContext;
     RoleDAO roleDAO;
-    
+
     public UserDAOImpl() {
         this.dbContext = new DBContextImpl();
         this.roleDAO = new RoleDAOImpl();
     }
-    
+
     @Override
     public User addUser(User user) {
         String sql = "insert into users(username, password, first_name, last_name, email, google_email) values (?, ?, ?, ?, ?, ?)";
@@ -55,7 +55,7 @@ public class UserDAOImpl implements UserDAO {
             } else {
                 ps.setNString(5, user.getEmail());
             }
-            if (user.getUsername() == null) {
+            if (user.getGoogleEmail()== null) {
                 ps.setNull(6, Types.NVARCHAR);
             } else {
                 ps.setNString(6, user.getGoogleEmail());
@@ -77,7 +77,7 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
-    
+
     @Override
     public User getUserById(int id) {
         String sql = "select id, username, password, first_name, last_name, email, google_email from users where id = ?";
@@ -101,7 +101,7 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
-    
+
     @Override
     public User getUserByUsername(String username) {
         String sql = "select id, username, password, first_name, last_name, email, google_email from users where username = ?";
@@ -126,10 +126,10 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
-    
+
     @Override
     public User getUserByEmail(String email) {
-        String sql = "select username, password, first_name, last_name, email, google_email from users where email = ?";
+        String sql = "select id, username, password, first_name, last_name, email, google_email from users where email = ?";
         try ( Connection cn = dbContext.getConnection();
                  PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setNString(1, email);
@@ -150,18 +150,19 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
-    
+
     @Override
     public User getUserByGoogleEmail(String email) {
-        String sql = "select username, password, first_name, last_name, email, google_email from users where google_email = ?";
+        String sql = "select id, username, first_name, last_name, email, google_email from users where google_email = ?";
         try ( Connection cn = dbContext.getConnection();
                  PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setNString(1, email);
             try ( ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    User user = User.builder().id(rs.getInt("id"))
+                    User user = User.builder()
+                            .id(rs.getInt("id"))
                             .username(rs.getNString("username"))
-                            .firstName(rs.getNString("username"))
+                            .firstName(rs.getNString("first_name"))
                             .lastName(rs.getNString("last_name"))
                             .email(rs.getNString("email"))
                             .googleEmail(rs.getNString("google_email"))
@@ -174,7 +175,42 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
-    
+
+    @Override
+    public boolean isUsernameExisted(String username) {
+        String sql = "select * from users where email = ? or username = ?";
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setNString(1, username);
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isEmailExisted(String email) {
+        String sql = "select * from users where email = ? or google_email = ?";
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setNString(1, email);
+            ps.setNString(2, email);
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
     @Override
     public User updateUser(User user) {
         String sql = "update users set username = ?, password = ?, first_name = ?, last_name = ?, email = ?, google_email = ? from users where id = ?";
@@ -195,7 +231,7 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
-    
+
     @Override
     public User deleteUser(User user) {
         String sql = "delete from users where id = ?";
@@ -211,7 +247,7 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
-    
+
     @Override
     public User addUserRole(User user, Role role) {
         Integer roleID = roleDAO.getRoleIdByRoleName(role);
@@ -222,7 +258,7 @@ public class UserDAOImpl implements UserDAO {
         try ( Connection cn = dbContext.getConnection();
                  PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setInt(1, user.getId());
-            ps.setInt(2, roleID.intValue());
+            ps.setInt(2, roleID);
             int affectedRow = ps.executeUpdate();
             if (affectedRow > 0) {
                 return user;
@@ -233,7 +269,7 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
-    
+
     @Override
     public HashSet<Role> getRoles(User user) {
         String getRoleIDsSql = "select role_id from user_role where user_id = ?";
@@ -245,6 +281,8 @@ public class UserDAOImpl implements UserDAO {
                 while (rs.next()) {
                     roleList.add(rs.getInt("role_id"));
                 }
+                if (roleList.isEmpty())
+                    return null;
                 HashSet<Role> roles = new HashSet<>();
                 roleList.forEach((Integer roleId) -> {
                     roles.add(roleDAO.getRoleById(roleId));
@@ -256,7 +294,7 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
-    
+
     @Override
     public User deleteUserRole(User user, Role role) {
         Integer roleID = roleDAO.getRoleIdByRoleName(role);
