@@ -178,7 +178,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean isUsernameExisted(String username) {
-        String sql = "select * from users where email = ? or username = ?";
+        String sql = "select * from users where username = ?";
         try ( Connection cn = dbContext.getConnection();
                  PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setNString(1, username);
