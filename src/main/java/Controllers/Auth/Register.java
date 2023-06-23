@@ -49,6 +49,11 @@ public class Register extends HttpServlet {
             registedUser = authService.register(user);
         } catch (IllegalArgumentException ex) {
             request.setAttribute(ex.getMessage(), true);
+            request.setAttribute("status", "failed");
+            request.setAttribute("username", user.getUsername());
+            request.setAttribute("firstname", user.getFirstName());
+            request.setAttribute("lastname", user.getLastName());
+            request.setAttribute("email", user.getEmail());
             viewDispatcher.forward(request, response);
             return;
         }
