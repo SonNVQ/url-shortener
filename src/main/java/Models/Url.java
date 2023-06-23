@@ -14,14 +14,15 @@ public class Url {
 
     private int id;
     private String uid;
+    private int userId;
     private String link;
     private String title;
     private String passcode;
-    private int redirect_time;
-    private String redirect_message;
+    private int redirectTime;
+    private String redirectMessage;
     private LocalDateTime createdTime;
     private LocalDateTime expirationTime;
-    private boolean is_banned;
+    private boolean isBanned;
     private String note;
-    private String admin_note;
+    private String adminNote;
 }

@@ -1,8 +1,6 @@
 package DAO;
 
 import Models.Url;
-import lombok.Builder;
-import lombok.Data;
 
 /**
  *
@@ -13,10 +11,12 @@ public interface UrlDAO {
     Url addUrl(Url url);
 
     Url getUrlById(int id);
+    
+    Url getUrlByUid(String uid);
 
     Url updateUrl(Url url);
 
-    Url deleteUrl(Url url);
+    Boolean deleteUrlById(int id);
 
     Boolean isUrlIdAvailable(String uid);
 }
