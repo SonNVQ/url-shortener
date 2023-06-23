@@ -53,12 +53,12 @@
                     >
                     <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                         <div class="row d-flex justify-content-center align-items-center">
-                            <div class="card shadow-2-strong" style="border-radius: 1rem">
+                            <div class="card shadow-2-strong" style="border-radius: 1rem; max-width: 450px;">
                                 <div class="card-body p-5 text-center">
                                     <h3 class="mb-3">SIGN UP</h3>
 
                                     <c:if test="${status eq 'successful'}">
-                                        <p class="text-success">Successfully! Please go to sign in!</p>
+                                        <p class="text-success"><a href="login">Successfully. Please go to sign in!</a></p>
                                     </c:if>
                                     <form action="register" method="POST">
 
@@ -157,8 +157,11 @@
                                                 Register
                                             </button>
                                         </div>
-
                                     </form>
+                                    <p class="small fw-bold mt-3 pt-1 mb-0 text-start">
+                                        Already have account?
+                                        <a href="login" class="link-primary">Login</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>

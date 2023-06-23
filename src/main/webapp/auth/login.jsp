@@ -50,7 +50,7 @@
                     >
                     <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                         <div class="row d-flex justify-content-center align-items-center">
-                            <div class="card shadow-2-strong" style="border-radius: 1rem">
+                            <div class="card shadow-2-strong" style="border-radius: 1rem; max-width: 450px;">
                                 <div class="card-body p-5 text-center">
                                     <h3 class="mb-3">SIGN IN</h3>
 
@@ -62,7 +62,7 @@
                                                                             <i class="fab fa-google me-2"></i> Continue with google
                                                                         </button>-->
 
-                                    <div>
+                                    <!--<div>-->
                                         <div id="g_id_onload"
                                              data-client_id="205125337007-vp8gcc90umgim1krgh90e6lcafj12obf.apps.googleusercontent.com"
                                              data-context="use"
@@ -77,10 +77,10 @@
                                              data-theme="outline"
                                              data-text="continue_with"
                                              data-size="large"
-                                             data-logo_alignment="left"
-                                             data-width="400">
+                                             data-logo_alignment="center"
+                                             style="display: flex;align-content: center;justify-content: center;">
                                         </div>
-                                    </div>
+                                    <!--</div>-->
 
                                     <div class="divider d-flex align-items-center my-3">
                                         <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
@@ -182,7 +182,7 @@
                                 </c:when>  
                                 <c:when test="${REGISTER_FAILED__EMAIL_IS_EXISTED}">
                                     <p>Registration failed, email already exists. <br>
-                                       Please continue or register with another google account!
+                                        Please continue or register with another google account!
                                     </p>
                                 </c:when> 
                                 <c:when test="${REGISTER_FAILED}">
