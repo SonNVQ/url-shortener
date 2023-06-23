@@ -1,10 +1,10 @@
 package Services.Impl;
 
 import Constants.Regex;
-import DAO.Impl.RoleDAOImpl;
-import DAO.Impl.UserDAOImpl;
-import DAO.RoleDAO;
-import DAO.UserDAO;
+import DAL.Impl.RoleDAOImpl;
+import DAL.Impl.UserDAOImpl;
+import DAL.RoleDAO;
+import DAL.UserDAO;
 import Models.GoogleUser;
 import Models.Role;
 import Models.User;

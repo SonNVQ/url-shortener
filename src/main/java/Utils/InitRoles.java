@@ -1,7 +1,7 @@
 package Utils;
 
-import DAO.Impl.RoleDAOImpl;
-import DAO.RoleDAO;
+import DAL.Impl.RoleDAOImpl;
+import DAL.RoleDAO;
 import Models.Role;
 
 /**

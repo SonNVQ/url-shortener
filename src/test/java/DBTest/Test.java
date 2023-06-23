@@ -1,7 +1,7 @@
 package DBTest;
 
-import DAO.Impl.UserDAOImpl;
-import DAO.UserDAO;
+import DAL.Impl.UserDAOImpl;
+import DAL.UserDAO;
 import Models.User;
 
 /**

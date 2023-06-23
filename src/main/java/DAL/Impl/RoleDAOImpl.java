@@ -1,8 +1,7 @@
-package DAO.Impl;
+package DAL.Impl;
 
-import DAO.DBContext;
-import DAO.DBContextImpl;
-import DAO.RoleDAO;
+import DAL.DBContext;
+import DAL.RoleDAO;
 import Models.Role;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

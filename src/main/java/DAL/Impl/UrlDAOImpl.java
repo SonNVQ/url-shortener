@@ -1,8 +1,7 @@
-package DAO.Impl;
+package DAL.Impl;
 
-import DAO.DBContext;
-import DAO.DBContextImpl;
-import DAO.UrlDAO;
+import DAL.DBContext;
+import DAL.UrlDAO;
 import Models.Url;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

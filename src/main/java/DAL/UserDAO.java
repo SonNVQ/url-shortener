@@ -1,4 +1,4 @@
-package DAO;
+package DAL;
 
 import Models.Role;
 import Models.User;
