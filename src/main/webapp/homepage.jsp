@@ -36,7 +36,9 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-7">
-                    <div class="fw-bold text-primary fs-3 text-center mt-5">No <span class="text-danger">fees</span>, no <span class="text-danger">ads</span>, just shorten you link!</div>
+                    <div class="fw-bold text-primary fs-3 text-center mt-5">
+                        No <span class="text-danger">fees</span>, no <span class="text-danger">ads</span>, just <span class="text-success">shorten</span> your link!
+                    </div>
                     <form action="#" method="post" class="mt-3">
                         <div class="row mb-4 g-2" >
                             <div class="col-lg-10" >
