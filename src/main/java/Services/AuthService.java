@@ -15,6 +15,8 @@ public interface AuthService {
     User login(HttpServletRequest request) throws IllegalArgumentException;
 
     User register(User user) throws IllegalArgumentException;
+    
+    Integer getUserId(HttpServletRequest request);
 
     boolean checkRole(HttpServletRequest request, Role role);
 

@@ -132,6 +132,16 @@ public class AuthServiceImpl implements AuthService {
         return "OK";
     }
 
+    @Override
+    public Integer getUserId(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if (session == null || session.getAttribute("user") == null) {
+            return null;
+        }
+        User user = (User) session.getAttribute("user");
+        return user.getId();
+    }
+
     public HashSet<Role> getUserRoles(User user) throws IllegalAccessError {
         //Try to get all roles
         HashSet<Role> roles = userDAO.getRoles(user);
