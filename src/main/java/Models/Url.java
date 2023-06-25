@@ -3,6 +3,7 @@ package Models;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *
@@ -10,6 +11,7 @@ import lombok.Data;
  */
 @Data
 @Builder
+@ToString
 public class Url {
 
     private Integer id;

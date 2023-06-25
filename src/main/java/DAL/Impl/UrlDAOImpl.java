@@ -133,6 +133,9 @@ public class UrlDAOImpl implements UrlDAO {
                     if (expirationTimestamp != null) {
                         expirationTime = expirationTimestamp.toLocalDateTime();
                     }
+                    Integer redirect_time = rs.getInt("redirect_time");
+                    if (redirect_time == 0)
+                        redirect_time = null;
                     Url url = Url.builder()
                             .id(rs.getInt("id"))
                             .uid(uid)

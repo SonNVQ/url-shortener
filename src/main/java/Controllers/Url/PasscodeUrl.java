@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class PasscodeUrl extends HttpServlet {
 
     private static final String FORM_PATH = "/url/passcode.jsp";
+    private static final String REDIRECT_PATH = "/url/redirect.jsp";
 
     private final UrlService urlService;
     private final AuthService authService;
@@ -45,10 +46,17 @@ public class PasscodeUrl extends HttpServlet {
             return;
         }
         Url url = urlService.getUrl(uid);
+        request.setAttribute("uid", uid);
         if (passcode == null || !passcode.equals(url.getPasscode())) {
-            request.setAttribute("uid", uid);
             request.setAttribute("wrong_passcode", true);
             request.getRequestDispatcher(FORM_PATH).forward(request, response);
+            return;
+        }
+        if (url.getRedirectTime() != null) {
+            request.setAttribute("link", url.getLink());
+            request.setAttribute("redirect_time", url.getRedirectTime());
+            request.setAttribute("redirect_message", url.getRedirectMessage());
+            request.getRequestDispatcher(REDIRECT_PATH).forward(request, response);
             return;
         }
         response.sendRedirect(url.getLink());

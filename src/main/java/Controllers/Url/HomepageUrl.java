@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  *
@@ -20,26 +22,36 @@ import java.time.LocalDateTime;
  */
 @WebServlet(name = "HomepageUrl", urlPatterns = {"/"})
 public class HomepageUrl extends HttpServlet {
-    
+
     private static final String FORM_PATH = "/homepage.jsp";
     private static final String PASSCODE_PATH = "/url/passcode.jsp";
-    
+    private static final String REDIRECT_PATH = "/url/redirect.jsp";
+    private static final String EXPIRED_PATH = "/url/expired.jsp";
+
     private final UrlService urlService;
     private final AuthService authService;
-    
+
     public HomepageUrl() {
         this.urlService = new UrlServiceImpl();
         this.authService = new AuthServiceImpl();
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String uri = request.getRequestURI();
         String uid = uri.substring(uri.lastIndexOf('/') + 1);
         Url url = urlService.getUrl(uid);
+        System.out.println(url);
         if (url == null) {
             request.getRequestDispatcher(FORM_PATH).forward(request, response);
+            return;
+        }
+        LocalDateTime expirationTime = url.getExpirationTime();
+        if (expirationTime != null && expirationTime.isBefore(LocalDateTime.now())) {
+            Date date = Date.from(expirationTime.atZone(ZoneId.systemDefault()).toInstant());
+            request.setAttribute("expiration_time", date);
+            request.getRequestDispatcher(EXPIRED_PATH).forward(request, response);
             return;
         }
         request.setAttribute("uid", uid);
@@ -47,13 +59,17 @@ public class HomepageUrl extends HttpServlet {
             request.getRequestDispatcher(PASSCODE_PATH).forward(request, response);
             return;
         }
+        //rs.getInt return int so redirectTime always an integer
+        if (url.getRedirectTime() > 0) {
+            request.setAttribute("link", url.getLink());
+            request.setAttribute("redirect_time", url.getRedirectTime());
+            request.setAttribute("redirect_message", url.getRedirectMessage());
+            request.getRequestDispatcher(REDIRECT_PATH).forward(request, response);
+            return;
+        }
         response.sendRedirect(url.getLink());
-//        System.out.println(request.getRequestURI());
-//
-//        request.setAttribute("url", uid);
-//        request.getRequestDispatcher(FORM_PATH).forward(request, response);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -90,5 +106,5 @@ public class HomepageUrl extends HttpServlet {
         }
         request.getRequestDispatcher(FORM_PATH).forward(request, response);
     }
-    
+
 }
