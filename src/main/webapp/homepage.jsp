@@ -94,7 +94,7 @@
                             <div class="col-lg-8 mb-4">
                                 <span>Set <b>redirect message</b>(only show if there is a redirect time)</span>
                                 <div class="form-outline mt-1">
-                                    <textarea class="form-control" name="redirect-message" id="textAreaExample" rows="2"></textarea>
+                                    <textarea class="form-control" name="redirect-message" id="textAreaExample" rows="2" maxlength="250"></textarea>
                                     <label class="form-label" for="textAreaExample">Redirect message</label>
                                 </div>
                             </div>
