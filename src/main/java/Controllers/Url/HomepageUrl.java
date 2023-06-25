@@ -43,8 +43,6 @@ public class HomepageUrl extends HttpServlet {
             return;
         }
         request.setAttribute("uid", uid);
-        System.out.println(url.getPasscode());
-        System.out.println(url.getPasscode().isEmpty());
         if (url.getPasscode() != null && !url.getPasscode().isEmpty()) {
             request.getRequestDispatcher(PASSCODE_PATH).forward(request, response);
             return;
