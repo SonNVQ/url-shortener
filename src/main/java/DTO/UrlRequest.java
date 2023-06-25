@@ -1,4 +1,4 @@
-package Models;
+package DTO;
 
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -10,19 +10,15 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class Url {
+public class UrlRequest {
 
-    private Integer id;
     private String uid;
-    private Integer userId;
     private String link;
-    private String title;
     private String passcode;
     private Integer redirectTime;
     private String redirectMessage;
-    private LocalDateTime createdTime;
     private LocalDateTime expirationTime;
-    private Boolean isBanned;
     private String note;
-    private String adminNote;
+    private Integer userId;
+    
 }

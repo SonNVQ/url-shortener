@@ -1,7 +1,5 @@
-package Controllers;
+package Controllers.Url;
 
-import Services.AuthService;
-import Services.Impl.AuthServiceImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,30 +12,21 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author nguyenson
  */
-@WebServlet(name = "Index", urlPatterns = {"/"})
-public class Index extends HttpServlet {
+@WebServlet(name = "DefaultUrl", urlPatterns = {"/url"})
+public class DefaultUrl extends HttpServlet {
 
-    private static final String VIEW_PATH = "homepage.jsp";
-
-    AuthService authService;
-
-    public Index() {
-        authService = new AuthServiceImpl();
-    }
+    private static final String FORM_PATH = "/url/url-form.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (authService.isGuest(request)) {
-            request.setAttribute("role", "guest");
-        }
-        request.getRequestDispatcher(VIEW_PATH).forward(request, response);
+        request.getRequestDispatcher(FORM_PATH).forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+
     }
 
 }

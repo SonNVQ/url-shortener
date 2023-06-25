@@ -18,5 +18,5 @@ public interface UrlDAO {
 
     Boolean deleteUrlById(int id);
 
-    Boolean isUrlIdAvailable(String uid);
+    Boolean isUidAvailable(String uid);
 }

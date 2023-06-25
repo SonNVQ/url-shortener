@@ -7,9 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalTime;
+import java.sql.Types;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,15 +33,31 @@ public class UrlDAOImpl implements UrlDAO {
         try ( Connection cn = dbContext.getConnection();
                  PreparedStatement ps = cn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, url.getUid());
-            ps.setInt(2, url.getUserId());
+            if (url.getUserId() != null) {
+                ps.setInt(2, url.getUserId());
+            } else {
+                ps.setNull(2, Types.INTEGER);
+            }
             ps.setNString(3, url.getLink());
             ps.setNString(4, url.getTitle());
             ps.setNString(5, url.getPasscode());
-            ps.setInt(6, url.getRedirectTime());
+            if (url.getRedirectTime() != null) {
+                ps.setInt(6, url.getRedirectTime());
+            } else {
+                ps.setNull(6, Types.INTEGER);
+            }
             ps.setNString(7, url.getRedirectMessage());
             ps.setTimestamp(8, Timestamp.valueOf(url.getCreatedTime()));
-            ps.setTimestamp(9, Timestamp.valueOf(url.getExpirationTime()));
-            ps.setBoolean(10, url.isBanned());
+            if (url.getExpirationTime() != null) {
+                ps.setTimestamp(9, Timestamp.valueOf(url.getExpirationTime()));
+            } else {
+                ps.setNull(9, Types.TIMESTAMP);
+            }
+            if (url.getIsBanned() != null) {
+                ps.setBoolean(10, url.getIsBanned());
+            } else {
+                ps.setNull(10, Types.BOOLEAN);
+            }
             ps.setNString(11, url.getNote());
             ps.setNString(12, url.getAdminNote());
             int affectedRow = ps.executeUpdate();
@@ -96,14 +112,19 @@ public class UrlDAOImpl implements UrlDAO {
 
     @Override
     public Url getUrlByUid(String uid) {
-        String sql = "select id, uid, user_id, link, title, passcode, redirect_time, "
-                + "redirect_message, created_time, expiration_time, is_banned, note, admin_note"
-                + "from urls where uid = ?";
+        String sql = "SELECT id, uid, user_id, link, title, passcode, redirect_time, "
+                + "redirect_message, created_time, expiration_time, is_banned, note, admin_note "
+                + "FROM urls WHERE uid = ?";
         try ( Connection cn = dbContext.getConnection();
                  PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setNString(1, uid);
             try ( ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    Timestamp expirationTimestamp = rs.getTimestamp("expiration_time");
+                    LocalDateTime expirationTime = null;
+                    if (expirationTimestamp != null) {
+                        expirationTime = expirationTimestamp.toLocalDateTime();
+                    }
                     Url url = Url.builder()
                             .id(rs.getInt("id"))
                             .uid(uid)
@@ -114,7 +135,7 @@ public class UrlDAOImpl implements UrlDAO {
                             .redirectTime(rs.getInt("redirect_time"))
                             .redirectMessage(rs.getNString("redirect_message"))
                             .createdTime(rs.getTimestamp("created_time").toLocalDateTime())
-                            .expirationTime(rs.getTimestamp("expiration_time").toLocalDateTime())
+                            .expirationTime(expirationTime)
                             .isBanned(rs.getBoolean("is_banned"))
                             .note(rs.getNString("note"))
                             .adminNote(rs.getNString("admin_note"))
@@ -144,7 +165,7 @@ public class UrlDAOImpl implements UrlDAO {
             ps.setNString(6, url.getRedirectMessage());
             ps.setTimestamp(7, Timestamp.valueOf(url.getCreatedTime()));
             ps.setTimestamp(8, Timestamp.valueOf(url.getExpirationTime()));
-            ps.setBoolean(9, url.isBanned());
+            ps.setBoolean(9, url.getIsBanned());
             ps.setNString(10, url.getNote());
             ps.setNString(11, url.getAdminNote());
             ps.setInt(12, url.getId());
@@ -180,7 +201,7 @@ public class UrlDAOImpl implements UrlDAO {
     }
 
     @Override
-    public Boolean isUrlIdAvailable(String uid) {
+    public Boolean isUidAvailable(String uid) {
         String sql = "select uid from urls where uid = ?";
         try ( Connection cn = dbContext.getConnection();
                  PreparedStatement ps = cn.prepareStatement(sql)) {
