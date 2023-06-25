@@ -43,7 +43,9 @@ public class HomepageUrl extends HttpServlet {
             return;
         }
         request.setAttribute("uid", uid);
-        if (url.getPasscode() != null) {
+        System.out.println(url.getPasscode());
+        System.out.println(url.getPasscode().isEmpty());
+        if (url.getPasscode() != null && !url.getPasscode().isEmpty()) {
             request.getRequestDispatcher(PASSCODE_PATH).forward(request, response);
             return;
         }
@@ -65,7 +67,7 @@ public class HomepageUrl extends HttpServlet {
         if (!redirectTimeString.isEmpty()) {
             redirectTime = Integer.parseInt(redirectTimeString);
         }
-        String redirectMessage = request.getParameter("redirect-message");
+        String redirectMessage = request.getParameter("redirect-message").trim();
         String expirationTimeString = request.getParameter("expiration-time");
         LocalDateTime expiratonTime = null;
         if (!expirationTimeString.isEmpty()) {

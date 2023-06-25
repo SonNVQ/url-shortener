@@ -50,7 +50,9 @@
                             </div>
                         </div>
 
-                        <p class="text-success fs-5 fw-bold">Your cute link: <a href="${url}" target="_blank">oi.io.vn/${url}</a></p>
+                        <c:if test="${not empty url}">
+                            <p class="text-success fs-5 fw-bold">Your cute link: <a href="${url}" target="_blank">oi.io.vn/${url}</a></p>
+                        </c:if>
 
                         <div class="divider d-flex align-items-center my-3">
                             <p class="text-center fw-bold mx-3 mb-0 text-muted">OPTIONAL OPTIONS</p>
@@ -68,7 +70,7 @@
                                 <span>Set a <b>passcode</b> for your shortened link</span>
                                 <div class="form-outline mt-1">
                                     <input type="text" name="passcode" id="passcode" class="form-control" />
-                                    <label class="form-label" for="passcode">Pass code</label>
+                                    <label class="form-label" for="passcode">Passcode</label>
                                 </div>
                             </div>
                             <div class="col-lg-4 mb-4">
@@ -90,7 +92,7 @@
                             <div class="col-lg-8 mb-4">
                                 <span>Set <b>redirect message</b>(only show if there is a redirect time)</span>
                                 <div class="form-outline mt-1">
-                                    <textarea class="form-control" id="textAreaExample" rows="2"></textarea>
+                                    <textarea class="form-control" name="redirect-message" id="textAreaExample" rows="2"></textarea>
                                     <label class="form-label" for="textAreaExample">Redirect message</label>
                                 </div>
                             </div>
