@@ -40,13 +40,21 @@ public class UrlDAOImpl implements UrlDAO {
             }
             ps.setNString(3, url.getLink());
             ps.setNString(4, url.getTitle());
-            ps.setNString(5, url.getPasscode());
+            if (url.getPasscode() == null || url.getPasscode().isEmpty()) {
+                ps.setNull(5, Types.NVARCHAR);
+            } else {
+                ps.setNString(5, url.getPasscode());
+            }
             if (url.getRedirectTime() != null) {
                 ps.setInt(6, url.getRedirectTime());
             } else {
                 ps.setNull(6, Types.INTEGER);
             }
-            ps.setNString(7, url.getRedirectMessage());
+            if (url.getRedirectMessage() == null || url.getRedirectMessage().isEmpty()) {
+                ps.setNull(7, Types.NVARCHAR);
+            } else {
+                ps.setNString(7, url.getRedirectMessage());
+            }
             ps.setTimestamp(8, Timestamp.valueOf(url.getCreatedTime()));
             if (url.getExpirationTime() != null) {
                 ps.setTimestamp(9, Timestamp.valueOf(url.getExpirationTime()));
