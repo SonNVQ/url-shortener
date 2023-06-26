@@ -15,7 +15,7 @@
         <%@include file="../templates/mdb-link.html" %>
     </head>
     <body class="d-flex flex-column min-vh-100">
-        <%@include file="../templates/navbar-homepage.jsp" %>
+        <%@include file="../templates/navbar.jsp" %>
 
         <div class="container mt-auto" >
             <div class="d-lg-flex flex-column justify-content-center align-items-center">

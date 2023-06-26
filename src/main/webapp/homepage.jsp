@@ -32,7 +32,7 @@
         </style>
     </head>
     <body class="d-flex flex-column min-vh-100">
-        <%@include file="templates/navbar-homepage.jsp" %>
+        <%@include file="templates/navbar.jsp" %>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-7">
