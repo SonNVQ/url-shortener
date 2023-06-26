@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="Services.Impl.RoleService, jakarta.servlet.http.HttpServletRequest" %>
+<jsp:useBean id="roleService" class="Services.Impl.RoleService" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -104,18 +104,15 @@
             </div>
         </div>
         <%@include file="templates/footer.html" %>
-        <%
-            if (RoleService.isGuest(request)) {
-                out.write("<div id=\"g_id_onload\"\n"
-                        + "             data-client_id=\"205125337007-vp8gcc90umgim1krgh90e6lcafj12obf.apps.googleusercontent.com\"\n"
-                        + "             data-context=\"signin\"\n"
-                        + "             data-ux_mode=\"popup\"\n"
-                        + "             data-login_uri=\"http://localhost:8088/url/auth/login-google\"\n"
-                        + "             data-itp_support=\"true\"></div>\n"
-                        + "        <script src=\"https://accounts.google.com/gsi/client\" async defer></script>"
-                );
-            }
-        %>
+        <c:if test="${roleService.isGuest(pageContext.request)}">
+            <div id="g_id_onload"
+                 data-client_id="205125337007-vp8gcc90umgim1krgh90e6lcafj12obf.apps.googleusercontent.com"
+                 data-context="signin"
+                 data-ux_mode="popup"
+                 data-login_uri="http://localhost:8088/url/auth/login-google"
+                 data-itp_support="true"></div>
+            <script src="https://accounts.google.com/gsi/client" async defer></script>
+        </c:if>
         <%@include file="templates/mdb-script.html" %>
     </body>
 </html>
