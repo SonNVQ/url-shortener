@@ -1,2 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/url"/>
+<Context path="/url">
+    <!--    <Resource name="jdbc/mssql"
+    auth="Container"
+    type="javax.sql.DataSource"
+    factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+    testWhileIdle="true"
+    testOnBorrow="true"
+    testOnReturn="false"
+    validationQuery="SELECT 1"
+    validationInterval="30000"
+    timeBetweenEvictionRunsMillis="30000"
+    maxActive="100"
+    minIdle="10"
+    maxWait="10000"
+    initialSize="10"
+    removeAbandonedTimeout="60"
+    removeAbandoned="true"
+    logAbandoned="true"
+    minEvictableIdleTimeMillis="30000"
+    jmxEnabled="true"
+    jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;
+  org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
+    username="sa"
+    password="sa"
+    driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+    url="jdbc:sqlserver://localhost:3306/url_shortener"/>-->
+    <Resource name="jdbc/mssql" auth="Container" type="javax.sql.DataSource"
+              maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+              username="sa" password="sa"
+              driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+              url="jdbc:sqlserver://localhost:1443;databaseName=url_shortener;encrypt=false;trustServerCertificate=false;" />
+</Context>
+<!--
+<Resource name="jdbc/mssql" auth="Container" type="javax.sql.DataSource"
+maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+username="sa" password="sa"
+driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+url="jdbc:sqlserver://localhost:1443;databaseName=url_shortener;encrypt=false;trustServerCertificate=false;" />-->
+

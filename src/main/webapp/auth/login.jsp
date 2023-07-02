@@ -67,7 +67,7 @@
                                              data-client_id="205125337007-vp8gcc90umgim1krgh90e6lcafj12obf.apps.googleusercontent.com"
                                              data-context="use"
                                              data-ux_mode="popup"
-                                             data-login_uri="http://localhost:8088/url/auth/login-google"
+                                             data-login_uri="${pageContext.request.contextPath}/auth/login-google"
                                              data-auto_prompt="false">
                                         </div>
 

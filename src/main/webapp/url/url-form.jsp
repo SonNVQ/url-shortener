@@ -35,7 +35,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <h1>Add url</h1>
-                    <form action="/url/url/add" method="post">
+                    <form action="${pageContext.request.contextPath}/url/add" method="post">
                         <!-- Email input -->
                         <div class="form-outline mb-4">
                             <input type="text" name="link" id="link" class="form-control" />

@@ -99,6 +99,17 @@
                                 </div>
                             </div>
                         </div>
+                        <c:if test="${roleService.isUser(pageContext.request)}">
+                            <div class="row">
+                                <div class="col mb-4">
+                                    <span>Add <b>note</b>(only for registered user ^^)</span>
+                                    <div class="form-outline mt-1">
+                                        <textarea class="form-control" name="note" id="textAreaExample" rows="2" maxlength="250"></textarea>
+                                        <label class="form-label" for="textAreaExample">Note</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
                     </form>
                 </div>
             </div>
@@ -109,7 +120,7 @@
                  data-client_id="205125337007-vp8gcc90umgim1krgh90e6lcafj12obf.apps.googleusercontent.com"
                  data-context="signin"
                  data-ux_mode="popup"
-                 data-login_uri="http://localhost:8088/url/auth/login-google"
+                 data-login_uri="${pageContext.request.contextPath}/auth/login-google"
                  data-itp_support="true"></div>
             <script src="https://accounts.google.com/gsi/client" async defer></script>
         </c:if>

@@ -20,7 +20,7 @@
         <div class="container mt-auto" >
             <div class="row fs-5">
                 <div class="col-lg-4 mx-auto">
-                    <p class="text-success fw-bold">Link: <a href="${uid}">oi.io.vn/${uid}</a></p>
+                    <p class="text-success fw-bold">Link: <a href="${pageContext.request.contextPath}/${uid}">oi.io.vn/${uid}</a></p>
                     <form action="passcode" method="post">
                         <span>You must enter <b>passcode</b> to access this link</span>
                         <div class="form-outline mt-2">
