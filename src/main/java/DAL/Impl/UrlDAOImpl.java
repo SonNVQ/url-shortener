@@ -101,10 +101,6 @@ public class UrlDAOImpl implements UrlDAO {
                     if (expirationTimestamp != null) {
                         expirationTime = expirationTimestamp.toLocalDateTime();
                     }
-                    Integer redirect_time = rs.getInt("redirect_time");
-                    if (redirect_time == 0) {
-                        redirect_time = null;
-                    }
                     Url url = Url.builder()
                             .id(id)
                             .uid(rs.getNString("uid"))
@@ -112,7 +108,7 @@ public class UrlDAOImpl implements UrlDAO {
                             .link(rs.getNString("link"))
                             .title(rs.getNString("title"))
                             .passcode(rs.getNString("passcode"))
-                            .redirectTime(redirect_time)
+                            .redirectTime(rs.getInt("redirect_time"))
                             .redirectMessage(rs.getNString("redirect_message"))
                             .createdTime(rs.getTimestamp("created_time").toLocalDateTime())
                             .expirationTime(expirationTime)
@@ -144,10 +140,6 @@ public class UrlDAOImpl implements UrlDAO {
                     if (expirationTimestamp != null) {
                         expirationTime = expirationTimestamp.toLocalDateTime();
                     }
-                    Integer redirect_time = rs.getInt("redirect_time");
-                    if (redirect_time == 0) {
-                        redirect_time = null;
-                    }
                     Url url = Url.builder()
                             .id(rs.getInt("id"))
                             .uid(uid)
@@ -155,7 +147,7 @@ public class UrlDAOImpl implements UrlDAO {
                             .link(rs.getNString("link"))
                             .title(rs.getNString("title"))
                             .passcode(rs.getNString("passcode"))
-                            .redirectTime(redirect_time)
+                            .redirectTime(rs.getInt("redirect_time"))
                             .redirectMessage(rs.getNString("redirect_message"))
                             .createdTime(rs.getTimestamp("created_time").toLocalDateTime())
                             .expirationTime(expirationTime)
@@ -193,9 +185,6 @@ public class UrlDAOImpl implements UrlDAO {
                         expirationTime = expirationTimestamp.toLocalDateTime();
                     }
                     Integer redirect_time = rs.getInt("redirect_time");
-                    if (redirect_time == 0) {
-                        redirect_time = null;
-                    }
                     Url url = Url.builder()
                             .id(rs.getInt("id"))
                             .uid(rs.getNString("uid"))
