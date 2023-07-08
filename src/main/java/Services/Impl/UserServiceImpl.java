@@ -4,18 +4,21 @@ import DAL.Impl.UrlDAOImpl;
 import DAL.UrlDAO;
 import Models.Url;
 import Services.UserService;
+import jakarta.enterprise.inject.Default;
+import jakarta.inject.Inject;
 import java.util.List;
 
 /**
  *
  * @author nguyenson
  */
+@Default
 public class UserServiceImpl implements UserService {
 
-    private final UrlDAO urlDAO;
+    @Inject
+    private UrlDAO urlDAO;
 
     public UserServiceImpl() {
-        this.urlDAO = new UrlDAOImpl();
     }
 
     @Override

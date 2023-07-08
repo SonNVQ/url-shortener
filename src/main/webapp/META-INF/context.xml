@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/url">
-    <!--    <Resource name="jdbc/mssql"
+  <!--    <Resource name="jdbc/mssql"
     auth="Container"
     type="javax.sql.DataSource"
     factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
@@ -25,11 +25,7 @@
     password="sa"
     driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
     url="jdbc:sqlserver://localhost:3306/url_shortener"/>-->
-    <Resource name="jdbc/mssql" auth="Container" type="javax.sql.DataSource"
-              maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-              username="sa" password="sa"
-              driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-              url="jdbc:sqlserver://localhost:1443;databaseName=url_shortener;encrypt=false;trustServerCertificate=false;" />
+  <Resource auth="Container" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" maxIdle="30" maxTotal="100" maxWaitMillis="10000" name="jdbc/mssql" password="sa" type="javax.sql.DataSource" url="jdbc:sqlserver://localhost:1443;databaseName=url_shortener;encrypt=false;trustServerCertificate=false;" username="sa"/>
 </Context>
 <!--
 <Resource name="jdbc/mssql" auth="Container" type="javax.sql.DataSource"
@@ -37,4 +33,3 @@ maxTotal="100" maxIdle="30" maxWaitMillis="10000"
 username="sa" password="sa"
 driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
 url="jdbc:sqlserver://localhost:1443;databaseName=url_shortener;encrypt=false;trustServerCertificate=false;" />-->
-

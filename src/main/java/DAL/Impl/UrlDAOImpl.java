@@ -3,6 +3,8 @@ package DAL.Impl;
 import DAL.DBContext;
 import DAL.UrlDAO;
 import Models.Url;
+import jakarta.enterprise.inject.Default;
+import jakarta.inject.Inject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,12 +21,13 @@ import java.util.logging.Logger;
  *
  * @author nguyenson
  */
+@Default
 public class UrlDAOImpl implements UrlDAO {
 
-    private final DBContext dbContext;
+    @Inject
+    private DBContext dbContext;
 
     public UrlDAOImpl() {
-        dbContext = new DBContextImpl();
     }
 
     @Override

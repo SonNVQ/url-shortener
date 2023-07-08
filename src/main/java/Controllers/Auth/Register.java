@@ -3,6 +3,7 @@ package Controllers.Auth;
 import Models.User;
 import Services.AuthService;
 import Services.Impl.AuthServiceImpl;
+import jakarta.inject.Inject;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,10 +23,10 @@ public class Register extends HttpServlet {
 
     private static final String VIEW_PATH = "register.jsp";
 
-    private final AuthService authService;
+    @Inject
+    private AuthService authService;
 
     public Register() {
-        authService = new AuthServiceImpl();
     }
 
     @Override

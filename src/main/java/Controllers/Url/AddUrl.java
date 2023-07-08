@@ -7,6 +7,7 @@ import Services.AuthService;
 import Services.Impl.AuthServiceImpl;
 import Services.Impl.UrlServiceImpl;
 import Services.UrlService;
+import jakarta.inject.Inject;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,12 +25,13 @@ public class AddUrl extends HttpServlet {
 
     private static final String FORM_PATH = "url-form.jsp";
 
-    private final UrlService urlService;
-    private final AuthService authService;
+    @Inject
+    private UrlService urlService;
+    
+    @Inject
+    private AuthService authService;
 
     public AddUrl() {
-        this.urlService = new UrlServiceImpl();
-        this.authService = new AuthServiceImpl();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

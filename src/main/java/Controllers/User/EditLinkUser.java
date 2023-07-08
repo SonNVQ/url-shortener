@@ -8,6 +8,7 @@ import Services.Impl.UrlServiceImpl;
 import Services.Impl.UserServiceImpl;
 import Services.UrlService;
 import Services.UserService;
+import jakarta.inject.Inject;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,14 +26,16 @@ public class EditLinkUser extends HttpServlet {
 
     private static final String FORM_PATH = "/user/link-form.jsp";
 
-    private final AuthService authService;
-    private final UserService userService;
-    private final UrlService urlService;
+    @Inject
+    private AuthService authService;
+
+    @Inject
+    private UserService userService;
+
+    @Inject
+    private UrlService urlService;
 
     public EditLinkUser() {
-        this.authService = new AuthServiceImpl();
-        this.userService = new UserServiceImpl();
-        this.urlService = new UrlServiceImpl();
     }
 
     @Override
@@ -95,7 +98,7 @@ public class EditLinkUser extends HttpServlet {
         } else {
             request.setAttribute("status", "updated-fail");
         }
-        
+
         request.setAttribute("url", updatedUrl);
         request.getRequestDispatcher(FORM_PATH).forward(request, response);
     }

@@ -19,6 +19,8 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.password4j.BcryptFunction;
 import com.password4j.Password;
 import com.password4j.types.Bcrypt;
+import jakarta.enterprise.inject.Default;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -33,15 +35,18 @@ import java.util.logging.Logger;
  *
  * @author nguyenson
  */
+@Default
 public class AuthServiceImpl implements AuthService {
 
-    private final UserDAO userDAO;
-    private final RoleDAO roleDAO;
+    @Inject
+    private UserDAO userDAO;
+    
+    @Inject
+    private RoleDAO roleDAO;
+    
     private final BcryptFunction bcrypt;
 
     public AuthServiceImpl() {
-        userDAO = new UserDAOImpl();
-        roleDAO = new RoleDAOImpl();
         bcrypt = BcryptFunction.getInstance(Bcrypt.A, 10);
     }
 

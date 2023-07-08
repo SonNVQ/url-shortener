@@ -5,6 +5,8 @@ import DAL.RoleDAO;
 import DAL.UserDAO;
 import Models.Role;
 import Models.User;
+import jakarta.enterprise.inject.Default;
+import jakarta.inject.Inject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,14 +24,16 @@ import java.util.logging.Logger;
  *
  * @author nguyenson
  */
+@Default
 public class UserDAOImpl implements UserDAO {
 
-    DBContext dbContext;
-    RoleDAO roleDAO;
+    @Inject
+    private DBContext dbContext;
+
+    @Inject
+    private RoleDAO roleDAO;
 
     public UserDAOImpl() {
-        this.dbContext = new DBContextImpl();
-        this.roleDAO = new RoleDAOImpl();
     }
 
     @Override
@@ -54,7 +58,7 @@ public class UserDAOImpl implements UserDAO {
             } else {
                 ps.setNString(5, user.getEmail());
             }
-            if (user.getGoogleEmail()== null) {
+            if (user.getGoogleEmail() == null) {
                 ps.setNull(6, Types.NVARCHAR);
             } else {
                 ps.setNString(6, user.getGoogleEmail());
@@ -280,8 +284,9 @@ public class UserDAOImpl implements UserDAO {
                 while (rs.next()) {
                     roleList.add(rs.getInt("role_id"));
                 }
-                if (roleList.isEmpty())
+                if (roleList.isEmpty()) {
                     return null;
+                }
                 HashSet<Role> roles = new HashSet<>();
                 roleList.forEach((Integer roleId) -> {
                     roles.add(roleDAO.getRoleById(roleId));

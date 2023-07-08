@@ -5,6 +5,7 @@ import Services.AuthService;
 import Services.Impl.AuthServiceImpl;
 import Services.Impl.UserServiceImpl;
 import Services.UserService;
+import jakarta.inject.Inject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -24,12 +25,13 @@ public class LinkUser extends HttpServlet {
 
     private static final String VIEW_PATH = "/user/links.jsp";
 
-    private final AuthService authService;
-    private final UserService userService;
+    @Inject
+    private AuthService authService;
+    
+    @Inject
+    private UserService userService;
 
     public LinkUser() {
-        this.authService = new AuthServiceImpl();
-        this.userService = new UserServiceImpl();
     }
 
     @Override

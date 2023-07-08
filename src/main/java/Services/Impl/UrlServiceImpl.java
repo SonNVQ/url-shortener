@@ -6,6 +6,8 @@ import DTO.UrlRequest;
 import Models.Url;
 import Services.UidService;
 import Services.UrlService;
+import jakarta.enterprise.inject.Default;
+import jakarta.inject.Inject;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.logging.Level;
@@ -19,14 +21,16 @@ import org.jsoup.nodes.Document;
  *
  * @author nguyenson
  */
+@Default
 public class UrlServiceImpl implements UrlService {
 
-    private final UrlDAO urlDAO;
-    private final UidService uidService;
+    @Inject
+    private UrlDAO urlDAO;
+    
+    @Inject
+    private UidService uidService;
 
     public UrlServiceImpl() {
-        this.urlDAO = new UrlDAOImpl();
-        this.uidService = new UidServiceImpl();
     }
 
     private Boolean isLinkValid(String link) {

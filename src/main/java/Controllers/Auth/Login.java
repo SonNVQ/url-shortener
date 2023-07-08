@@ -4,6 +4,7 @@ import Models.Role;
 import Models.User;
 import Services.AuthService;
 import Services.Impl.AuthServiceImpl;
+import jakarta.inject.Inject;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -23,10 +24,10 @@ public class Login extends HttpServlet {
 
     private static final String VIEW_PATH = "login.jsp";
 
-    private final AuthService authService;
+    @Inject
+    private AuthService authService;
 
     public Login() {
-        authService = new AuthServiceImpl();
     }
 
     @Override
