@@ -43,9 +43,11 @@ public class UrlServiceImpl implements UrlService {
         if (uid != null && !urlRequest.getUid().isEmpty() && !urlDAO.isUidAvailable(uid)) {
             throw new IllegalArgumentException("UID_IS_NOT_AVAILABLE");
         }
+        if (uid == null || uid.isEmpty()) {
+            uid = uidService.generateUid();
+        }
         String title = getLinkTitle(urlRequest.getLink());
         LocalDateTime createdTime = LocalDateTime.now();
-        uid = uidService.generateUid();
         Url url = Url.builder()
                 .uid(uid)
                 .userId(urlRequest.getUserId())

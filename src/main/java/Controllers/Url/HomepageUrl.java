@@ -12,6 +12,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -41,6 +43,10 @@ public class HomepageUrl extends HttpServlet {
             throws ServletException, IOException {
         String uri = request.getRequestURI();
         String uid = uri.substring(uri.lastIndexOf('/') + 1);
+        if (uid.isEmpty()) {
+            request.getRequestDispatcher(FORM_PATH).forward(request, response);
+            return;
+        }
         Url url = urlService.getUrl(uid);
         System.out.println(url);
         if (url == null) {
@@ -75,6 +81,9 @@ public class HomepageUrl extends HttpServlet {
             throws ServletException, IOException {
         String link = request.getParameter("link");
         String uid = request.getParameter("uid");
+        if (!uid.isEmpty()) {
+            uid = URLEncoder.encode(uid, StandardCharsets.UTF_8.name());
+        }
         String passcode = request.getParameter("passcode");
         String redirectTimeString = request.getParameter("redirect-time");
         Integer redirectTime = null;
