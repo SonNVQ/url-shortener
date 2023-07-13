@@ -5,6 +5,11 @@
             30
         </session-timeout>
     </session-config>
+    <context-param>
+        <description>Site domain</description>
+        <param-name>domain</param-name>
+        <param-value>oi.io.vn</param-value>
+    </context-param>
     <listener>
         <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
     </listener>

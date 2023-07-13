@@ -6,6 +6,7 @@ import Models.Url;
 import jakarta.enterprise.inject.Default;
 import jakarta.inject.Inject;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -104,6 +105,9 @@ public class UrlDAOImpl implements UrlDAO {
                     if (expirationTimestamp != null) {
                         expirationTime = expirationTimestamp.toLocalDateTime();
                     }
+                    Integer redirectTime = rs.getInt("redirect_time");
+                    if (redirectTime == 0)
+                        redirectTime = null;
                     Url url = Url.builder()
                             .id(id)
                             .uid(rs.getNString("uid"))
@@ -111,7 +115,7 @@ public class UrlDAOImpl implements UrlDAO {
                             .link(rs.getNString("link"))
                             .title(rs.getNString("title"))
                             .passcode(rs.getNString("passcode"))
-                            .redirectTime(rs.getInt("redirect_time"))
+                            .redirectTime(redirectTime)
                             .redirectMessage(rs.getNString("redirect_message"))
                             .createdTime(rs.getTimestamp("created_time").toLocalDateTime())
                             .expirationTime(expirationTime)
@@ -143,6 +147,9 @@ public class UrlDAOImpl implements UrlDAO {
                     if (expirationTimestamp != null) {
                         expirationTime = expirationTimestamp.toLocalDateTime();
                     }
+                    Integer redirectTime = rs.getInt("redirect_time");
+                    if (redirectTime == 0)
+                        redirectTime = null;
                     Url url = Url.builder()
                             .id(rs.getInt("id"))
                             .uid(uid)
@@ -150,7 +157,7 @@ public class UrlDAOImpl implements UrlDAO {
                             .link(rs.getNString("link"))
                             .title(rs.getNString("title"))
                             .passcode(rs.getNString("passcode"))
-                            .redirectTime(rs.getInt("redirect_time"))
+                            .redirectTime(redirectTime)
                             .redirectMessage(rs.getNString("redirect_message"))
                             .createdTime(rs.getTimestamp("created_time").toLocalDateTime())
                             .expirationTime(expirationTime)
@@ -187,7 +194,9 @@ public class UrlDAOImpl implements UrlDAO {
                     if (expirationTimestamp != null) {
                         expirationTime = expirationTimestamp.toLocalDateTime();
                     }
-                    Integer redirect_time = rs.getInt("redirect_time");
+                    Integer redirectTime = rs.getInt("redirect_time");
+                    if (redirectTime == 0)
+                        redirectTime = null;
                     Url url = Url.builder()
                             .id(rs.getInt("id"))
                             .uid(rs.getNString("uid"))
@@ -195,7 +204,60 @@ public class UrlDAOImpl implements UrlDAO {
                             .link(rs.getNString("link"))
                             .title(rs.getNString("title"))
                             .passcode(rs.getNString("passcode"))
-                            .redirectTime(rs.getInt("redirect_time"))
+                            .redirectTime(redirectTime)
+                            .redirectMessage(rs.getNString("redirect_message"))
+                            .createdTime(rs.getTimestamp("created_time").toLocalDateTime())
+                            .expirationTime(expirationTime)
+                            .isBanned(rs.getBoolean("is_banned"))
+                            .note(rs.getNString("note"))
+                            .adminNote(rs.getNString("admin_note"))
+                            .build();
+                    urls.add(url);
+                }
+            }
+            return urls;
+        } catch (SQLException ex) {
+            Logger.getLogger(UrlDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Url> searchUrlPaging(int userId, String searchField, String searchText, Date searchFromDate, Date searchToDate, int size, int page) {
+        String sql = "SELECT id, uid, user_id, link, title, passcode, redirect_time, "
+                + "redirect_message, created_time, expiration_time, is_banned, note, admin_note "
+                + "FROM urls "
+                + "WHERE user_id = ? AND " + searchField + " LIKE CONCAT('%', ?, '%') "
+                + "AND created_time BETWEEN ? AND ? "
+                + "ORDER BY created_time DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        int offset = size * (page - 1);
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setNString(2, searchText);
+            ps.setDate(3, searchFromDate);
+            ps.setDate(4, searchToDate);
+            ps.setInt(5, offset);
+            ps.setInt(6, size);
+            List<Url> urls = new ArrayList<>();
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Timestamp expirationTimestamp = rs.getTimestamp("expiration_time");
+                    LocalDateTime expirationTime = null;
+                    if (expirationTimestamp != null) {
+                        expirationTime = expirationTimestamp.toLocalDateTime();
+                    }
+                    Integer redirectTime = rs.getInt("redirect_time");
+                    if (redirectTime == 0)
+                        redirectTime = null;
+                    Url url = Url.builder()
+                            .id(rs.getInt("id"))
+                            .uid(rs.getNString("uid"))
+                            .userId(rs.getInt("user_id"))
+                            .link(rs.getNString("link"))
+                            .title(rs.getNString("title"))
+                            .passcode(rs.getNString("passcode"))
+                            .redirectTime(redirectTime)
                             .redirectMessage(rs.getNString("redirect_message"))
                             .createdTime(rs.getTimestamp("created_time").toLocalDateTime())
                             .expirationTime(expirationTime)
@@ -219,6 +281,166 @@ public class UrlDAOImpl implements UrlDAO {
         try ( Connection cn = dbContext.getConnection();
                  PreparedStatement ps = cn.prepareStatement(sql);) {
             ps.setInt(1, userId);
+            try ( ResultSet rs = ps.executeQuery();) {
+                if (rs.next()) {
+                    return rs.getInt("total");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UrlDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    @Override
+    public int countNumberOfSearchingRows(int userId, String searchField, String searchText, Date searchFromDate, Date searchToDate) {
+        String sql = "SELECT COUNT(*) AS total "
+                + "FROM urls "
+                + "WHERE user_id = ? AND " + searchField + " LIKE CONCAT('%', ?, '%') "
+                + "AND created_time BETWEEN ? AND ? ";
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql);) {
+            ps.setInt(1, userId);
+            ps.setNString(2, searchText);
+            ps.setDate(3, searchFromDate);
+            ps.setDate(4, searchToDate);
+            try ( ResultSet rs = ps.executeQuery();) {
+                if (rs.next()) {
+                    return rs.getInt("total");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UrlDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
+    @Override
+    public List<Url> getAllUrlsPaging(int size, int page) {
+        String sql = "SELECT id, uid, user_id, link, title, passcode, redirect_time, "
+                + "redirect_message, created_time, expiration_time, is_banned, note, admin_note "
+                + "FROM urls ORDER BY created_time DESC "
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        int offset = size * (page - 1);
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, offset);
+            ps.setInt(2, size);
+            List<Url> urls = new ArrayList<>();
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Timestamp expirationTimestamp = rs.getTimestamp("expiration_time");
+                    LocalDateTime expirationTime = null;
+                    if (expirationTimestamp != null) {
+                        expirationTime = expirationTimestamp.toLocalDateTime();
+                    }
+                    Integer redirectTime = rs.getInt("redirect_time");
+                    if (redirectTime == 0)
+                        redirectTime = null;
+                    Url url = Url.builder()
+                            .id(rs.getInt("id"))
+                            .uid(rs.getNString("uid"))
+                            .userId(rs.getInt("user_id"))
+                            .link(rs.getNString("link"))
+                            .title(rs.getNString("title"))
+                            .passcode(rs.getNString("passcode"))
+                            .redirectTime(redirectTime)
+                            .redirectMessage(rs.getNString("redirect_message"))
+                            .createdTime(rs.getTimestamp("created_time").toLocalDateTime())
+                            .expirationTime(expirationTime)
+                            .isBanned(rs.getBoolean("is_banned"))
+                            .note(rs.getNString("note"))
+                            .adminNote(rs.getNString("admin_note"))
+                            .build();
+                    urls.add(url);
+                }
+            }
+            return urls;
+        } catch (SQLException ex) {
+            Logger.getLogger(UrlDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Url> searchAllUrlPaging(String searchField, String searchText, Date searchFromDate, Date searchToDate, int size, int page) {
+        String sql = "SELECT id, uid, user_id, link, title, passcode, redirect_time, "
+                + "redirect_message, created_time, expiration_time, is_banned, note, admin_note "
+                + "FROM urls "
+                + "WHERE " + searchField + " LIKE CONCAT('%', ?, '%') "
+                + "AND created_time BETWEEN ? AND ? "
+                + "ORDER BY created_time DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        int offset = size * (page - 1);
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setNString(1, searchText);
+            ps.setDate(2, searchFromDate);
+            ps.setDate(3, searchToDate);
+            ps.setInt(4, offset);
+            ps.setInt(5, size);
+            List<Url> urls = new ArrayList<>();
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Timestamp expirationTimestamp = rs.getTimestamp("expiration_time");
+                    LocalDateTime expirationTime = null;
+                    if (expirationTimestamp != null) {
+                        expirationTime = expirationTimestamp.toLocalDateTime();
+                    }
+                    Integer redirectTime = rs.getInt("redirect_time");
+                    if (redirectTime == 0)
+                        redirectTime = null;
+                    Url url = Url.builder()
+                            .id(rs.getInt("id"))
+                            .uid(rs.getNString("uid"))
+                            .userId(rs.getInt("user_id"))
+                            .link(rs.getNString("link"))
+                            .title(rs.getNString("title"))
+                            .passcode(rs.getNString("passcode"))
+                            .redirectTime(redirectTime)
+                            .redirectMessage(rs.getNString("redirect_message"))
+                            .createdTime(rs.getTimestamp("created_time").toLocalDateTime())
+                            .expirationTime(expirationTime)
+                            .isBanned(rs.getBoolean("is_banned"))
+                            .note(rs.getNString("note"))
+                            .adminNote(rs.getNString("admin_note"))
+                            .build();
+                    urls.add(url);
+                }
+            }
+            return urls;
+        } catch (SQLException ex) {
+            Logger.getLogger(UrlDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public int countAllNumberOfRows() {
+        String sql = "SELECT COUNT(*) AS total FROM urls";
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql);) {
+            try ( ResultSet rs = ps.executeQuery();) {
+                if (rs.next()) {
+                    return rs.getInt("total");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UrlDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    @Override
+    public int countAllNumberOfSearchingRows(String searchField, String searchText, Date searchFromDate, Date searchToDate) {
+        String sql = "SELECT COUNT(*) AS total "
+                + "FROM urls "
+                + "WHERE " + searchField + " LIKE CONCAT('%', ?, '%') "
+                + "AND created_time BETWEEN ? AND ? ";
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql);) {
+            ps.setNString(1, searchText);
+            ps.setDate(2, searchFromDate);
+            ps.setDate(3, searchToDate);
             try ( ResultSet rs = ps.executeQuery();) {
                 if (rs.next()) {
                     return rs.getInt("total");
@@ -324,5 +546,39 @@ public class UrlDAOImpl implements UrlDAO {
         }
         return null;
     }
+
+    @Override
+    public Boolean banUrl(int id) {
+        String sql = "UPDATE urls SET is_banned = 1 WHERE id = ?";
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int affectedRow = ps.executeUpdate();
+            if (affectedRow > 0) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UrlDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean unbanUrl(int id) {
+        String sql = "UPDATE urls SET is_banned = 0 WHERE id = ?";
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int affectedRow = ps.executeUpdate();
+            if (affectedRow > 0) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UrlDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    
 
 }

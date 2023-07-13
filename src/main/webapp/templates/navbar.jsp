@@ -38,6 +38,29 @@
                             <a class="nav-link" href="#" style="color: #3b3a3a;">Shorten links in milliseconds!</a>
                         </li>
                     </c:when>
+                    <c:when test="${navRoleService.isAdmin(pageContext.request)}">                
+                        <li class="nav-item ms-3">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                Shorten link
+                            </a>
+                        </li>
+                        <!--                        <li class="nav-item">
+                                                    <a class="nav-link" href="#">-</a>
+                                                </li>-->
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/links/search">
+                                <i class="fa-solid fa-bookmark"></i>
+                                All Links
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/users/search">
+                                <i class="fa-solid fa-user"></i>
+                                Users
+                            </a>
+                        </li>
+                    </c:when>
                     <c:otherwise>                
                         <li class="nav-item ms-3">
                             <a class="nav-link" href="${pageContext.request.contextPath}/">
@@ -45,11 +68,11 @@
                                 Shorten link
                             </a>
                         </li>
-<!--                        <li class="nav-item">
-                            <a class="nav-link" href="#">-</a>
-                        </li>-->
+                        <!--                        <li class="nav-item">
+                                                    <a class="nav-link" href="#">-</a>
+                                                </li>-->
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/links">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/links/search">
                                 <i class="fa-solid fa-bookmark"></i>
                                 My links
                             </a>
@@ -72,7 +95,7 @@
                                 <!--                <a href="auth/login" class="btn btn-primary me-3">
                                                     Sign in
                                                 </a>-->
-                                <a href="auth/login">
+                                <a href="${pageContext.request.contextPath}/auth/login">
                                     <i class="fa-solid fa-right-to-bracket"></i>
                                     Sign in/Sign up
                                 </a>
@@ -102,7 +125,7 @@
                                 class="dropdown-menu dropdown-menu-end"
                                 aria-labelledby="navbarDropdownMenuLink"
                                 >
-                                <li><a class="dropdown-item" href="#">My profile</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile">My profile</a></li>
                                 <!--<li><a class="dropdown-item" href="#">Settings</a></li>-->
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/auth/logout">Logout</a></li>
                             </ul>

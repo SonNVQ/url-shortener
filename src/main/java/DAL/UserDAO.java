@@ -35,5 +35,11 @@ public interface UserDAO {
     HashSet<Role> getRoles(User user);
 
     User deleteUserRole(User user, Role role);
+    
+    List<User> searchAllUsersPaging(String searchField, String searchText, int size, int page);
+    
+    int countAllNumberOfSearchingRows(String searchField, String searchText);
+    
+    boolean changePassword(int id, String newPassword);
 
 }

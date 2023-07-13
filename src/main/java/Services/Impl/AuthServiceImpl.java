@@ -23,6 +23,7 @@ import jakarta.enterprise.inject.Default;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -40,10 +41,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Inject
     private UserDAO userDAO;
-    
+
     @Inject
     private RoleDAO roleDAO;
-    
+
     private final BcryptFunction bcrypt;
 
     public AuthServiceImpl() {
@@ -138,12 +139,21 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Integer getUserId(HttpServletRequest request) {
+    public User getUser(HttpServletRequest request) {
         HttpSession session = request.getSession();
         if (session == null || session.getAttribute("user") == null) {
             return null;
         }
         User user = (User) session.getAttribute("user");
+        return user;
+    }
+
+    @Override
+    public Integer getUserId(HttpServletRequest request) {
+        User user = getUser(request);
+        if (user == null) {
+            return null;
+        }
         return user.getId();
     }
 
@@ -302,5 +312,5 @@ public class AuthServiceImpl implements AuthService {
 
         return user;
     }
-
+    
 }

@@ -58,6 +58,6 @@ public class Login extends HttpServlet {
             viewDispatcher.forward(request, response);
             return;
         }
-        response.sendRedirect(request.getContextPath());
+        response.sendRedirect(request.getContextPath() + "/");
     }
 }

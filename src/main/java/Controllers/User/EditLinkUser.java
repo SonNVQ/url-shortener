@@ -4,6 +4,7 @@ import DTO.UrlRequest;
 import Models.Url;
 import Services.AuthService;
 import Services.Impl.AuthServiceImpl;
+import Services.Impl.RoleService;
 import Services.Impl.UrlServiceImpl;
 import Services.Impl.UserServiceImpl;
 import Services.UrlService;
@@ -25,6 +26,8 @@ import java.time.LocalDateTime;
 public class EditLinkUser extends HttpServlet {
 
     private static final String FORM_PATH = "/user/link-form.jsp";
+    
+    private static final String REDIRECT_PATH = "links/search";
 
     @Inject
     private AuthService authService;
@@ -43,13 +46,13 @@ public class EditLinkUser extends HttpServlet {
             throws ServletException, IOException {
         String uid = request.getParameter("uid");
         if (uid == null || uid.isEmpty()) {
-            response.sendRedirect("links");
+            response.sendRedirect(REDIRECT_PATH);
             return;
         }
         int userId = authService.getUserId(request);
         Url url = urlService.getUrl(uid);
-        if (url.getUserId() != userId) {
-            response.sendRedirect("links");
+        if (!RoleService.isAdmin(request) && url.getUserId() != userId) {
+            response.sendRedirect(REDIRECT_PATH);
             return;
         }
         request.setAttribute("url", url);
@@ -61,13 +64,13 @@ public class EditLinkUser extends HttpServlet {
             throws ServletException, IOException {
         String uid = request.getParameter("uid");
         if (uid == null || uid.isEmpty()) {
-            response.sendRedirect("links");
+            response.sendRedirect(REDIRECT_PATH);
             return;
         }
         int user_id = authService.getUserId(request);
         Url url = urlService.getUrl(uid);
-        if (url.getUserId() != user_id) {
-            response.sendRedirect("links");
+        if (!RoleService.isAdmin(request) && url.getUserId() != user_id) {
+            response.sendRedirect(REDIRECT_PATH);
             return;
         }
 

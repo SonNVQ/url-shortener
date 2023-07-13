@@ -305,7 +305,7 @@ public class UserDAOImpl implements UserDAO {
         if (roleID == null) {
             return null;
         }
-        String sql = "delete from user_role where user_id = ?, role_id = ?";
+        String sql = "delete from user_role where user_id = ? and role_id = ?";
         try ( Connection cn = dbContext.getConnection();
                  PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setInt(1, user.getId());
@@ -318,6 +318,82 @@ public class UserDAOImpl implements UserDAO {
             Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    @Override
+    public List<User> searchAllUsersPaging(String searchField, String searchText, int size, int page) {
+        if (searchField.equals("name")) {
+            searchField = "CONCAT(first_name, ' ', last_name)";
+        }
+        String sql = "SELECT id, username, password, first_name, last_name, email, google_email\n"
+                + "FROM users\n"
+                + "WHERE " + searchField + " LIKE CONCAT('%', ?, '%') "
+                + "ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        int offset = size * (page - 1);
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setNString(1, searchText);
+            ps.setInt(2, offset);
+            ps.setInt(3, size);
+            try ( ResultSet rs = ps.executeQuery()) {
+                List<User> users = new ArrayList<>();
+                while (rs.next()) {
+                    User user = User.builder().id(rs.getInt("id"))
+                            .username(rs.getNString("username"))
+                            .firstName(rs.getNString("first_name"))
+                            .lastName(rs.getNString("last_name"))
+                            .email(rs.getNString("email"))
+                            .googleEmail(rs.getNString("google_email"))
+                            .build();
+                    HashSet<Role> roles = getRoles(user);
+                    user.setRoles(roles);
+                    users.add(user);
+                }
+                return users;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public int countAllNumberOfSearchingRows(String searchField, String searchText) {
+        if (searchField.equals("name")) {
+            searchField = "CONCAT(first_name, ' ', last_name)";
+        }
+        String sql = "SELECT COUNT(*) AS total "
+                + "FROM users "
+                + "WHERE " + searchField + " LIKE CONCAT('%', ?, '%')";
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql);) {
+            ps.setNString(1, searchText);
+            try ( ResultSet rs = ps.executeQuery();) {
+                if (rs.next()) {
+                    return rs.getInt("total");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UrlDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean changePassword(int id, String newPassword) {
+        String sql = "update users set password = ? from users where id = ?";
+        try ( Connection cn = dbContext.getConnection();
+                 PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setNString(1, newPassword);
+            ps.setInt(2, id);
+            int affectedRow = ps.executeUpdate();
+            if (affectedRow > 0) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
 }

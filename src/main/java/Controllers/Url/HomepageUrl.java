@@ -30,10 +30,11 @@ public class HomepageUrl extends HttpServlet {
     private static final String PASSCODE_PATH = "/url/passcode.jsp";
     private static final String REDIRECT_PATH = "/url/redirect.jsp";
     private static final String EXPIRED_PATH = "/url/expired.jsp";
+    private static final String BANNED_PATH = "/url/banned.jsp";
 
     @Inject
     private UrlService urlService;
-    
+
     @Inject
     private AuthService authService;
 
@@ -49,12 +50,21 @@ public class HomepageUrl extends HttpServlet {
             request.getRequestDispatcher(FORM_PATH).forward(request, response);
             return;
         }
+        String[] extension = uid.split("\\.");
+//        System.out.println(path);
+//        if ()
         Url url = urlService.getUrl(uid);
         System.out.println(url);
         if (url == null) {
             request.getRequestDispatcher(FORM_PATH).forward(request, response);
             return;
         }
+
+        if (url.getIsBanned()) {
+            request.getRequestDispatcher(BANNED_PATH).forward(request, response);
+            return;
+        }
+
         LocalDateTime expirationTime = url.getExpirationTime();
         if (expirationTime != null && expirationTime.isBefore(LocalDateTime.now())) {
             Date date = Date.from(expirationTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -67,8 +77,8 @@ public class HomepageUrl extends HttpServlet {
             request.getRequestDispatcher(PASSCODE_PATH).forward(request, response);
             return;
         }
-        //rs.getInt return int so redirectTime always an integer
-        if (url.getRedirectTime() > 0) {
+
+        if (url.getRedirectTime() != null && url.getRedirectTime() > 0) {
             request.setAttribute("link", url.getLink());
             request.setAttribute("redirect_time", url.getRedirectTime());
             request.setAttribute("redirect_message", url.getRedirectMessage());

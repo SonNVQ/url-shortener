@@ -6,13 +6,14 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="customTag" tagdir="/WEB-INF/tags/" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Passcode Protection</title>
-        <%@include file="../templates/mdb-link.html" %>
+        <title>Links</title>
+        <%@include file="../templates/mdb-link.jsp" %>
         <style>
             .truncate-3 {
                 display: -webkit-box;
@@ -27,6 +28,7 @@
         <%@include file="../templates/navbar.jsp" %>
         <div class="container" >
             <h2 class="text-center my-4">My links</h2>
+
             <table class="table table-bordered table-striped table-hover table-sm align-middle mb-0 bg-white">
                 <thead class="bg-light">
                     <tr>
@@ -135,6 +137,6 @@
             </script>
         </div>
         <%@include file="../templates/footer.html" %>
-        <%@include file="../templates/mdb-script.html" %>
+        <%@include file="../templates/mdb-script.jsp" %>
     </body>
 </html>

@@ -22,9 +22,8 @@
             <div class="mx-auto text-center">
                 <div class="fs-5" style="min-width: 400px;">
                     <p class="text-danger fw-bolder" style="font-size: 7rem">OOPS!!!</p>
-                    <p class="text-warning fw-bold" style="font-size: 3rem">
-                        Link expired at 
-                        <fmt:formatDate value="${expiration_time}" pattern="dd-MM-YYYY HH:mm:ss" />
+                    <p class="text-danger fw-bold" style="font-size: 3rem">
+                        This link has been banned!
                     </p>
                     <%--<fmt:formatDate value="${expiration_time}" />--%>
                     <%--<fmt:parseDate value="${expiration_time}" pattern="dd-MM-yyyy HH:mm:ss" var="exp_time"/>--%>

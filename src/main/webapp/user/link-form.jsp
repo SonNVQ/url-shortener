@@ -12,7 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Passcode Protection</title>
-        <%@include file="../templates/mdb-link.html" %>
+        <%@include file="../templates/mdb-link.jsp" %>
     </head>
     <body class="d-flex flex-column min-vh-100">
         <%@include file="../templates/navbar.jsp" %>
@@ -44,7 +44,7 @@
                         <div class="mb-2">
                             <span><b>Redirect time:</b></span>
                             <div class="form-outline mt-1">
-                                <input type="number" name="redirect-time" value="${url.redirectTime}" min="5" max="60" id="redirect-time" class="form-control" />
+                                <input type="number" name="redirect-time" value="${url.redirectTime}" min="3" max="120" id="redirect-time" class="form-control" />
                             </div>
                         </div>
                         <div class="mb-2">
@@ -71,6 +71,6 @@
         </div>
 
         <%@include file="../templates/footer.html" %>
-        <%@include file="../templates/mdb-script.html" %>
+        <%@include file="../templates/mdb-script.jsp" %>
     </body>
 </html>

@@ -1,5 +1,6 @@
 package Models;
 
+import java.util.HashSet;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,4 +19,6 @@ public class User {
     private String lastName;
     private String email;
     private String googleEmail;
+    private HashSet<Role> roles;
+    
 }

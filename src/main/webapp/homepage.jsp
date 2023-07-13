@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <%@include file="templates/mdb-link.html" %>
+        <%@include file="templates/mdb-link.jsp" %>
         <style>
             .divider:after,
             .divider:before {
@@ -124,6 +124,6 @@
                  data-itp_support="true"></div>
             <script src="https://accounts.google.com/gsi/client" async defer></script>
         </c:if>
-        <%@include file="templates/mdb-script.html" %>
+        <%@include file="templates/mdb-script.jsp" %>
     </body>
 </html>
