@@ -63,23 +63,23 @@
                                                                         </button>-->
 
                                     <!--<div>-->
-                                        <div id="g_id_onload"
-                                             data-client_id="205125337007-vp8gcc90umgim1krgh90e6lcafj12obf.apps.googleusercontent.com"
-                                             data-context="use"
-                                             data-ux_mode="popup"
-                                             data-login_uri="${pageContext.request.contextPath}/auth/login-google"
-                                             data-auto_prompt="false">
-                                        </div>
+                                    <div id="g_id_onload"
+                                         data-client_id="205125337007-vp8gcc90umgim1krgh90e6lcafj12obf.apps.googleusercontent.com"
+                                         data-context="use"
+                                         data-ux_mode="popup"
+                                         data-login_uri="${pageContext.request.contextPath}/auth/login-google"
+                                         data-auto_prompt="false">
+                                    </div>
 
-                                        <div class="g_id_signin"
-                                             data-type="standard"
-                                             data-shape="rectangular"
-                                             data-theme="outline"
-                                             data-text="continue_with"
-                                             data-size="large"
-                                             data-logo_alignment="center"
-                                             style="display: flex;align-content: center;justify-content: center;">
-                                        </div>
+                                    <div class="g_id_signin"
+                                         data-type="standard"
+                                         data-shape="rectangular"
+                                         data-theme="outline"
+                                         data-text="continue_with"
+                                         data-size="large"
+                                         data-logo_alignment="center"
+                                         style="display: flex;align-content: center;justify-content: center;">
+                                    </div>
                                     <!--</div>-->
 
                                     <div class="divider d-flex align-items-center my-3">
@@ -99,9 +99,9 @@
                                             <input
                                                 type="text"
                                                 name="username"
+                                                value="${username}"
                                                 id="typeUsernameX-2"
                                                 class="form-control form-control-lg"
-                                                value="${username}"
                                                 />
                                             <label class="form-label" for="typeUsernameX-2"
                                                    >Username</label
@@ -115,6 +115,7 @@
                                             <input
                                                 type="password"
                                                 name="password"
+                                                value = "${password}"
                                                 id="typePasswordX-2"
                                                 class="form-control form-control-lg"
                                                 />
@@ -134,11 +135,14 @@
                                                 <input
                                                     class="form-check-input"
                                                     type="checkbox"
-                                                    value=""
+                                                    value="true"
                                                     id="form1Example3"
-                                                    checked
+                                                    name="rememberMe"
+                                                    <c:if test="${username ne null}">
+                                                        checked
+                                                    </c:if>
                                                     />
-                                                <label class="form-check-label" for="form1Example3">
+                                                <label class="form-check-label" for="form1Example3" >
                                                     Remember me
                                                 </label>
                                             </div>
