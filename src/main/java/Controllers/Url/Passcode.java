@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author nguyenson
  */
 @WebServlet(name = "PasscodeUrl", urlPatterns = {"/passcode"})
-public class PasscodeUrl extends HttpServlet {
+public class Passcode extends HttpServlet {
 
     private static final String FORM_PATH = "/url/passcode.jsp";
     private static final String REDIRECT_PATH = "/url/redirect.jsp";
@@ -29,7 +29,7 @@ public class PasscodeUrl extends HttpServlet {
     @Inject
     private AuthService authService;
 
-    public PasscodeUrl() {
+    public Passcode() {
         this.urlService = new UrlServiceImpl();
         this.authService = new AuthServiceImpl();
     }

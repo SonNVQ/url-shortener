@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author nguyenson
  */
 @WebServlet(name = "DeleteLinkUser", urlPatterns = {"/links/delete"})
-public class DeleteLinkUser extends HttpServlet {
+public class DeleteLink extends HttpServlet {
 
     @Inject
     private UrlService urlService;

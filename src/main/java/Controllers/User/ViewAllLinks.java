@@ -21,7 +21,7 @@ import java.util.List;
  * @author nguyenson
  */
 @WebServlet(name = "LinkUser", urlPatterns = {"/links"})
-public class LinkUser extends HttpServlet {
+public class ViewAllLinks extends HttpServlet {
 
     private static final String VIEW_PATH = "/user/links.jsp";
 
@@ -31,7 +31,7 @@ public class LinkUser extends HttpServlet {
     @Inject
     private UserService userService;
 
-    public LinkUser() {
+    public ViewAllLinks() {
     }
 
     @Override

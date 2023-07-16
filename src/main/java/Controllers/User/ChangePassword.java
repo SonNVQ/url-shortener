@@ -1,4 +1,4 @@
-package Controllers.Url;
+package Controllers.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,21 +12,19 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author nguyenson
  */
-@WebServlet(name = "DefaultUrl", urlPatterns = {"/url"})
-public class DefaultUrl extends HttpServlet {
-
-    private static final String FORM_PATH = "/url/url-form.jsp";
-
+@WebServlet(name="ChangePasswordUser", urlPatterns={"/changePass"})
+public class ChangePassword extends HttpServlet {
+   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.getRequestDispatcher(FORM_PATH).forward(request, response);
-    }
+    throws ServletException, IOException {
+        
+    } 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    throws ServletException, IOException {
+        
     }
 
 }

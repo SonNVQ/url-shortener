@@ -24,7 +24,7 @@ import java.util.Date;
  * @author nguyenson
  */
 @WebServlet(name = "HomepageUrl", urlPatterns = {"/"})
-public class HomepageUrl extends HttpServlet {
+public class Homepage extends HttpServlet {
 
     private static final String FORM_PATH = "/homepage.jsp";
     private static final String PASSCODE_PATH = "/url/passcode.jsp";
@@ -38,7 +38,7 @@ public class HomepageUrl extends HttpServlet {
     @Inject
     private AuthService authService;
 
-    public HomepageUrl() {
+    public Homepage() {
     }
 
     @Override

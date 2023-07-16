@@ -27,7 +27,7 @@ import java.util.List;
  * @author nguyenson
  */
 @WebServlet(name = "SearchLinkUser", urlPatterns = {"/links/search"})
-public class SearchLinkUser extends HttpServlet {
+public class SearchLink extends HttpServlet {
 
     private static final String FORM_PATH = "/user/search-form.jsp";
 

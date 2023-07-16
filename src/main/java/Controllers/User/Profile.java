@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author nguyenson
  */
 @WebServlet(name = "ProfileUser", urlPatterns = {"/profile"})
-public class ProfileUser extends HttpServlet {
+public class Profile extends HttpServlet {
 
     private static final String FORM_PATH = "/user/profile.jsp";
 

@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
  * @author nguyenson
  */
 @WebServlet(name = "AddUrl", urlPatterns = {"/url/add"})
-public class AddUrl extends HttpServlet {
+public class Add extends HttpServlet {
 
     private static final String FORM_PATH = "url-form.jsp";
 
@@ -31,7 +31,7 @@ public class AddUrl extends HttpServlet {
     @Inject
     private AuthService authService;
 
-    public AddUrl() {
+    public Add() {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

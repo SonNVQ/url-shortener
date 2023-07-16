@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
  * @author nguyenson
  */
 @WebServlet(name = "EditLinkUser", urlPatterns = {"/links/edit"})
-public class EditLinkUser extends HttpServlet {
+public class EditLink extends HttpServlet {
 
     private static final String FORM_PATH = "/user/link-form.jsp";
     
@@ -38,7 +38,7 @@ public class EditLinkUser extends HttpServlet {
     @Inject
     private UrlService urlService;
 
-    public EditLinkUser() {
+    public EditLink() {
     }
 
     @Override
