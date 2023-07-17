@@ -53,7 +53,16 @@
                         </div>
 
                         <c:if test="${not empty url}">
-                            <p class="text-success fs-5 fw-bold">Your cute link: <a href="${url}" target="_blank">oi.io.vn/${url}</a></p>
+                            <p class="text-success fs-5 fw-bold">
+                                Your cute link: <a href="${url}" target="_blank">oi.io.vn/${url}</a>
+                                <!--                                <a class="btn text-white btn-lg btn-floating" style="background-color: #3b71ca;" 
+                                                                   role="button" 
+                                                                   onclick="navigator.clipboard.writeText('https://oi.io.vn/' + '${url}')">-->
+                                <i class="fab fa-solid fa-copy ms-2" 
+                                   style ="cursor: pointer;"
+                                   onclick="navigator.clipboard.writeText('https://oi.io.vn/' + '${url}')"></i>
+                                <!--</a>-->
+                            </p>
                         </c:if>
 
                         <div class="divider d-flex align-items-center my-3">
@@ -125,5 +134,15 @@
             <script src="https://accounts.google.com/gsi/client" async defer></script>
         </c:if>
         <%@include file="templates/mdb-script.jsp" %>
+        <script>
+                                       function copyLink() {
+                                           // Get the text field
+                                           var copyText = 'https://oi.io.vn/' + ${url};
+
+                                           // Copy the text inside the text field
+                                           navigator.clipboard.writeText('https://oi.io.vn/' + ${url});
+
+                                       }
+        </script>
     </body>
 </html>
