@@ -86,7 +86,7 @@
                     </c:if>
                     <div class="mt-4">
                         <p>
-                            <a href="${pageContext.request.contextPath}/changePassword">&#149; Change password</a>
+                            <a href="${pageContext.request.contextPath}/changePass">&#149; Change password</a>
                         </p>
                     </div>
                 </div>
