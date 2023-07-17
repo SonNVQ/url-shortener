@@ -24,6 +24,8 @@ public interface UserService {
     
     User getUser(Integer id);
     
+    User getUserByUsername(String username);
+    
     boolean changePassword(int id, String newPassword);
 
 }

@@ -92,8 +92,8 @@ public class UrlDAOImpl implements UrlDAO {
 
     @Override
     public Url getUrlById(int id) {
-        String sql = "select id, uid, user_id, link, title, passcode, redirect_time, "
-                + "redirect_message, created_time, expiration_time, is_banned, note, admin_note"
+        String sql = "select id, uid, user_id, link, title, passcode, redirect_time, \n"
+                + "redirect_message, created_time, expiration_time, is_banned, note, admin_note \n"
                 + "from urls where id = ?";
         try ( Connection cn = dbContext.getConnection();
                  PreparedStatement ps = cn.prepareStatement(sql)) {

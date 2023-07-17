@@ -1,9 +1,13 @@
 package Services.Impl;
 
-import DAL.Impl.UrlDAOImpl;
+import Constants.CommonConstant;
 import DAL.UrlDAO;
+import DAL.UserDAO;
 import DTO.UrlRequest;
+import Models.Email;
 import Models.Url;
+import Models.User;
+import Services.EmailService;
 import Services.UidService;
 import Services.UrlService;
 import jakarta.enterprise.inject.Default;
@@ -26,9 +30,15 @@ public class UrlServiceImpl implements UrlService {
 
     @Inject
     private UrlDAO urlDAO;
-    
+
+    @Inject
+    private UserDAO userDAO;
+
     @Inject
     private UidService uidService;
+
+    @Inject
+    private EmailService emailService;
 
     public UrlServiceImpl() {
     }
@@ -104,6 +114,60 @@ public class UrlServiceImpl implements UrlService {
             Logger.getLogger(UrlServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
+    }
+
+    @Override
+    public Boolean banUrl(int id) {
+        Url url = urlDAO.getUrlById(id);
+        if (url == null) {
+            return false;
+        }
+        Boolean isBanned = urlDAO.banUrl(id);
+        if (!isBanned) {
+            return false;
+        }
+        User user = userDAO.getUserById(url.getUserId());
+        String link = CommonConstant.FULL_DOMAIN + "/" + url.getUid();
+        String content = "<div style=\"color: #262626;\">\n"
+                + "    <h3 style=\"text-transform: uppercase; color: #3b71ca;\">oi.io.vn - Notification</h3>\n"
+                + "    <h4 style=\"color: red;\">Your link <a href=\"" + link + "\">" + link + "</a> has been banned by admin!</h4>\n"
+                + "    <h4>Contact <a href=\"mailto:feedback@oi.io.vn\">feedback@oi.io.vn</a> for more information!</h4>\n"
+                + "</div>";
+        Email bannedEmail = Email.builder()
+                .from("admin@oi.io.vn <admin@oi.io.vn>")
+                .to(user.getEmail())
+                .subject("Banned url notice")
+                .html(content)
+                .build();
+        emailService.sendMail(bannedEmail);
+        return true;
+    }
+
+    @Override
+    public Boolean unbanUrl(int id) {
+        Url url = urlDAO.getUrlById(id);
+        if (url == null) {
+            return false;
+        }
+        Boolean isBanned = urlDAO.unbanUrl(id);
+        if (!isBanned) {
+            return false;
+        }
+        User user = userDAO.getUserById(url.getUserId());
+        String link = CommonConstant.FULL_DOMAIN + "/" + url.getUid();
+        String content = "<div style=\"color: #262626;\">\n"
+                + "    <h3 style=\"text-transform: uppercase; color: #3b71ca;\">oi.io.vn - Notification</h3>\n"
+                + "    <h4 style=\"color: green;\">Your link <a href=\"" + link + "\">" + link + "</a> has been unbanned by admin!</h4>\n"
+                + "    <h4>Contact <a href=\"mailto:feedback@oi.io.vn\">feedback@oi.io.vn</a> for more information!</h4>\n"
+                + "</div>";
+        Email bannedEmail = Email.builder()
+                .from("admin@oi.io.vn <admin@oi.io.vn>")
+                .to(user.getEmail())
+                .subject("Unbanned url notice")
+                .html(content)
+                .build();
+        emailService.sendMail(bannedEmail);
+        return true;
     }
 
 }

@@ -21,4 +21,8 @@ public interface AdminService {
 
     int countAllNumberOfUserSearchingPage(String searchField, String searchText, Integer size);
 
+    Boolean setRoleAdmin(int id);
+    
+    Boolean removeRoleAdmin(int id);
+    
 }

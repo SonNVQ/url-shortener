@@ -2,6 +2,7 @@ package Controllers.Admin;
 
 import DAL.UrlDAO;
 import Services.AuthService;
+import Services.UrlService;
 import jakarta.inject.Inject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class UnbanUrl extends HttpServlet {
 
     @Inject
-    private UrlDAO urlDAO;
+    private UrlService urlService;
 
     @Inject
     private AuthService authService;
@@ -39,7 +40,9 @@ public class UnbanUrl extends HttpServlet {
         }
 
         int id = Integer.valueOf(request.getParameter("id"));
-        urlDAO.unbanUrl(id);
+
+        urlService.unbanUrl(id);
+
         response.sendRedirect("/admin/links/search");
     }
 

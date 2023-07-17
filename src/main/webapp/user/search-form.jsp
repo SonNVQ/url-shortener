@@ -311,7 +311,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <h5 class="text-warning" style="text-align: left;">
-                                                        You are going to ban: 
+                                                        You are going to unban: 
                                                         <a href="#">${initParam.domain}/${item.uid}</a>
                                                     </h5>
                                                 </div>

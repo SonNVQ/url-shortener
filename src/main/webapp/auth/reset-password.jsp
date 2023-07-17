@@ -52,7 +52,7 @@
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="card shadow-2-strong" style="border-radius: 1rem; max-width: 450px;">
                                 <div class="card-body p-5 text-center">
-                                    <h3 class="mb-3">SIGN IN</h3>
+                                    <h3 class="mb-3">Reset Password</h3>
 
                                     <!--                                    <button
                                                                             class="btn btn-lg btn-block btn-primary"
@@ -63,102 +63,57 @@
                                                                         </button>-->
 
                                     <!--<div>-->
-                                    <div id="g_id_onload"
-                                         data-client_id="205125337007-vp8gcc90umgim1krgh90e6lcafj12obf.apps.googleusercontent.com"
-                                         data-context="use"
-                                         data-ux_mode="popup"
-                                         data-login_uri="${pageContext.request.contextPath}/auth/login-google"
-                                         data-auto_prompt="false">
-                                    </div>
 
-                                    <div class="g_id_signin"
-                                         data-type="standard"
-                                         data-shape="rectangular"
-                                         data-theme="outline"
-                                         data-text="continue_with"
-                                         data-size="large"
-                                         data-logo_alignment="center"
-                                         style="display: flex;align-content: center;justify-content: center;">
-                                    </div>
                                     <!--</div>-->
 
-                                    <div class="divider d-flex align-items-center my-3">
-                                        <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
-                                    </div>
-                                    <c:choose>
-                                        <c:when test="${status eq 'failed'}">
-                                            <p class="text-warning">Wrong username or password!</p>
-                                        </c:when>
-                                        <c:when test="${status eq 'google-failed'}">
-                                            <p class="text-success">Successfully!</p>
-                                        </c:when>  
-                                    </c:choose>
-
-                                    <form action="${pageContext.request.contextPath}/auth/login" method="POST">
+                                    <c:if test="${LINK_IS_INVALID}">
+                                        <p class="text-danger text-start mt-1">
+                                            This reset link is invalid. Please <a href="${pageContext.request.contextPath}/auth/forgotPassword">request</a> for a new reset link!
+                                        </p>
+                                    </c:if>
+                                    <c:if test="${TOKEN_IS_EXPIRED}">
+                                        <p class="text-danger text-start mt-1">
+                                            This reset link is expired. Please <a href="${pageContext.request.contextPath}/auth/forgotPassword">request</a> for a new reset link!
+                                        </p>
+                                    </c:if>
+                                    <c:if test="${PASSWORD_IS_INVALID}">
+                                        <p class="text-danger text-start mt-1">New password is invalid. Please try again!</p>
+                                    </c:if>
+                                    <c:if test="${status eq 'failed'}">
+                                        <p class="text-danger text-start mt-1">
+                                            Change password failed. Please try again!
+                                        </p>
+                                    </c:if> 
+                                    <c:if test="${status eq 'success'}">
+                                        <p class="text-success text-start mt-1">
+                                            Successful. Go to <a href="${pageContext.request.contextPath}/auth/login">login</a> now!
+                                        </p>
+                                    </c:if> 
+                                    <form action="#" method="POST">
+                                        <input type="hidden" name="id" value="${id}" >
                                         <div class="form-outline">
                                             <input
                                                 type="text"
-                                                name="username"
-                                                value="${username}"
+                                                name="password"
+                                                value="${password}"
                                                 id="typeUsernameX-2"
                                                 class="form-control form-control-lg"
                                                 />
                                             <label class="form-label" for="typeUsernameX-2"
-                                                   >Username</label
+                                                   >Enter new password</label
                                             >
                                         </div>
-                                        <c:if test="${false}">
-                                            <p class="text-danger text-start mt-1">Username format is invalid!</p>
-                                        </c:if>
+                                        <div class="form-outline mt-4">
+                                            <button
+                                                class="btn btn-primary btn-lg btn-block"
+                                                type="submit"
+                                                >
+                                                Set new password
+                                            </button>
+                                        </div>
 
-                                        <div class="form-outline mt-3">
-                                            <input
-                                                type="password"
-                                                name="password"
-                                                value = "${password}"
-                                                id="typePasswordX-2"
-                                                class="form-control form-control-lg"
-                                                />
-                                            <label class="form-label" for="typePasswordX-2"
-                                                   >Password</label
-                                            >
-                                        </div>
-                                        <c:if test="${false}">
-                                            <p class="text-danger text-start mt-1">Password format is invalid!</p>
-                                        </c:if>
-
-                                        <div
-                                            class="d-flex justify-content-between align-items-center my-4 my-0"
-                                            >
-                                            <!-- Checkbox -->
-                                            <div class="form-check my-0">
-                                                <input
-                                                    class="form-check-input"
-                                                    type="checkbox"
-                                                    value="true"
-                                                    id="form1Example3"
-                                                    name="rememberMe"
-                                                    <c:if test="${username ne null}">
-                                                        checked
-                                                    </c:if>
-                                                    />
-                                                <label class="form-check-label" for="form1Example3" >
-                                                    Remember me
-                                                </label>
-                                            </div>
-                                            <a href="${pageContext.request.contextPath}/auth/forgotPassword">Forgot password?</a>
-                                        </div>
-                                        <button
-                                            class="btn btn-primary btn-lg btn-block"
-                                            type="submit"
-                                            >
-                                            Login
-                                        </button>
                                     </form>
-                                    <p class="small fw-bold mt-3 pt-1 mb-0 text-start">
-                                        Don't have an account?
-                                        <a href="register" class="link-danger">Register</a>
-                                    </p>
+
                                 </div>
                             </div>
                         </div>

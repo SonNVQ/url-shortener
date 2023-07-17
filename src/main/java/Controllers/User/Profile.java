@@ -52,6 +52,10 @@ public class Profile extends HttpServlet {
         String lastName = request.getParameter("lastname");
         request.setAttribute("firstname", firstName);
         request.setAttribute("lastname", lastName);
+        
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        
         User updatedUser;
         try {
             updatedUser = userService.updateUser(user);
@@ -63,7 +67,7 @@ public class Profile extends HttpServlet {
         if (updatedUser == null) {
             request.setAttribute("status", "failed");
         } else {
-            request.setAttribute("status", "successful");
+            request.setAttribute("status", "success");
         }
         request.getRequestDispatcher(FORM_PATH).forward(request, response);
     }

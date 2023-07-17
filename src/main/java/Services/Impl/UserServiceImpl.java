@@ -4,13 +4,15 @@ import Constants.CommonConstant;
 import Constants.Regex;
 import DAL.UrlDAO;
 import DAL.UserDAO;
+import Models.Email;
 import Models.Url;
 import Models.User;
+import Services.EmailService;
 import Services.UserService;
 import jakarta.enterprise.inject.Default;
 import jakarta.inject.Inject;
 import java.sql.Date;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -25,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private EmailService emailService;
 
     public UserServiceImpl() {
     }
@@ -123,8 +128,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            return null;
+        }
+        return userDAO.getUserByUsername(username);
+    }
+
+    @Override
     public boolean changePassword(int id, String newPassword) {
-        return userDAO.changePassword(id, newPassword);
+        User user = userDAO.getUserById(id);
+        if (user == null) {
+            return false;
+        }
+        boolean isPasswordChanged = userDAO.changePassword(id, newPassword);
+        if (!isPasswordChanged) {
+            return false;
+        }
+        String content = "<div style=\"color: #262626;\">\n"
+                + "    <h3 style=\"text-transform: uppercase; color: #3b71ca;\">oi.io.vn - Notification</h3>\n"
+                + "    <h4 style=\"color: gold;\">Your password has been changed at " + LocalDateTime.now().toString() + "!</h4>\n"
+                + "    <h4>Contact: <a href=\"mailto:admin@oi.io.vn\">password@oi.io.vn</a></h4>\n"
+                + "</div>";
+        Email bannedEmail = Email.builder()
+                .from("password@oi.io.vn <password@oi.io.vn>")
+                .to(user.getEmail())
+                .subject("Password changed notice")
+                .html(content)
+                .build();
+        emailService.sendMail(bannedEmail);
+        return true;
     }
 
 }

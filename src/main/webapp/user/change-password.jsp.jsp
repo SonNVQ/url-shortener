@@ -20,9 +20,7 @@
         <div class="container" >
             <div class="row">
                 <div class="col-4 mx-auto">
-                    <h2 class="mt-5 text-center">
-                        Profile
-                    </h2>
+                    <h2 class="mt-5 text-center">Profile</h2>
                     <form action="${pageContext.request.contextPath}/profile" method="POST">
                         <div class="row">
                             <div class="col-lg-6">
@@ -81,14 +79,9 @@
                     <c:if test="${status eq 'failed'}">
                         <p class="text-danger mt-3">Updated failed! Please try again!</p>
                     </c:if>
-                    <c:if test="${status eq 'success'}">
+                    <c:if test="${status eq 'successful'}">
                         <p class="text-success mt-3">Updated successfully!</p>
                     </c:if>
-                    <div class="mt-4">
-                        <p>
-                            <a href="${pageContext.request.contextPath}/changePassword">&#149; Change password</a>
-                        </p>
-                    </div>
                 </div>
             </div>
         </div>

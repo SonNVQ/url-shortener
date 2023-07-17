@@ -3,6 +3,7 @@ package Controllers.Admin;
 import DAL.UserDAO;
 import Models.Role;
 import Models.User;
+import Services.AdminService;
 import Services.AuthService;
 import jakarta.inject.Inject;
 import java.io.IOException;
@@ -20,7 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class RemoveAdminRole extends HttpServlet {
 
     @Inject
-    private UserDAO userDAO;
+    private AdminService adminService;
     
     @Inject
     private AuthService authService;
@@ -39,8 +40,9 @@ public class RemoveAdminRole extends HttpServlet {
             return;
         }
         int id = Integer.valueOf(request.getParameter("id"));
-        User user = userDAO.getUserById(id);
-        User updatedUser = userDAO.deleteUserRole(user, Role.ADMIN);
+        
+        adminService.removeRoleAdmin(id);
+        
         response.sendRedirect("/admin/users/search");
     }
 

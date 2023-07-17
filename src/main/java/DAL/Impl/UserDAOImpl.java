@@ -225,6 +225,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setNString(4, user.getLastName());
             ps.setNString(5, user.getEmail());
             ps.setNString(6, user.getGoogleEmail());
+            ps.setInt(7, user.getId());
             int affectedRow = ps.executeUpdate();
             if (affectedRow > 0) {
                 return user;

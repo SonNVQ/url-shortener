@@ -20,4 +20,8 @@ public interface UrlService {
     
     String getLinkTitle(String link);
     
+    Boolean banUrl(int id);
+    
+    Boolean unbanUrl(int id);
+    
 }
