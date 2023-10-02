@@ -5,7 +5,7 @@
 --%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:useBean id="navRoleService" class="Services.Impl.RoleService" />
+<jsp:useBean id="roleService" class="com.urlshortener.Services.Impl.RoleService" scope="application" />
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <!-- Container wrapper -->
@@ -33,12 +33,12 @@
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <c:choose>
-                    <c:when test="${navRoleService.isGuest(pageContext.request)}">                
+                    <c:when test="${roleService.isGuest(pageContext.request)}">                
                         <li class="nav-item ms-2">
                             <a class="nav-link" href="#" style="color: #3b3a3a;">Shorten links in milliseconds!</a>
                         </li>
                     </c:when>
-                    <c:when test="${navRoleService.isAdmin(pageContext.request)}">                
+                    <c:when test="${roleService.isAdmin(pageContext.request)}">                
                         <li class="nav-item ms-3">
                             <a class="nav-link" href="${pageContext.request.contextPath}/">
                                 <i class="fa-solid fa-paper-plane"></i>
@@ -87,7 +87,7 @@
                 <!-- Avatar -->
                 <li class="nav-item dropdown">
                     <c:choose>
-                        <c:when test="${navRoleService.isGuest(pageContext.request)}">                
+                        <c:when test="${roleService.isGuest(pageContext.request)}">                
                             <div class="d-flex align-items-center">
                                 <!--                <a href="auth/login" class="btn btn-link px-3 me-2">
                                                     Login
@@ -111,7 +111,7 @@
                                 aria-expanded="false"
                                 >
                                 <div class="me-2">
-                                    Hello, ${navRoleService.getUserLastName(pageContext.request)}
+                                    Hello, ${roleService.getUserLastName(pageContext.request)}
                                 </div> 
                                 <img
                                     src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"

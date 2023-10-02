@@ -84,11 +84,13 @@
                     <c:if test="${status eq 'success'}">
                         <p class="text-success mt-3">Updated successfully!</p>
                     </c:if>
-                    <div class="mt-4">
-                        <p>
-                            <a href="${pageContext.request.contextPath}/changePass">&#149; Change password</a>
-                        </p>
-                    </div>
+                    <c:if test="${!roleService.isGoogleLoginOnlyUser(pageContext.request)}">
+                        <div class="mt-4">
+                            <p>
+                                <a href="${pageContext.request.contextPath}/changePass">&#149; Change password</a>
+                            </p>
+                        </div>
+                    </c:if>
                 </div>
             </div>
         </div>

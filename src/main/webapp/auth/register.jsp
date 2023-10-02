@@ -69,13 +69,20 @@
                                                 id="typeUsernameX-2"
                                                 class="form-control form-control-lg"
                                                 value="${username}"
+                                                required
                                                 />
                                             <label class="form-label" for="typeUsernameX-2"
                                                    >Username</label
                                             >
                                         </div>
                                         <c:if test="${USERNAME_FORMAT_INVALID eq true}">
-                                            <p class="text-warning text-start mt-1">Username format is invalid!</p>
+                                            <div class="mt-1">
+                                                <p class="text-warning text-start m-0">Username must:</p>
+                                                <ul class="text-warning text-start mt-0">
+                                                    <li>have length between 6 and 20</li>
+                                                    <li>does not include special characters</li>
+                                                </ul>
+                                            </div>
                                         </c:if>
                                         <c:if test="${USERNAME_IS_EXISTED eq true}">
                                             <p class="text-warning text-start mt-1">Username is existed!</p>
@@ -87,13 +94,22 @@
                                                 name="password"
                                                 id="typePasswordX-2"
                                                 class="form-control form-control-lg"
+                                                required
                                                 />
                                             <label class="form-label" for="typePasswordX-2"
                                                    >Password</label
                                             >
                                         </div>
                                         <c:if test="${PASSWORD_FORMAT_INVALID eq true}">
-                                            <p class="text-warning text-start mt-1">Password format is invalid!</p>
+                                            <div class="mt-1">
+                                                <p class="text-warning text-start m-0">Password must:</p>
+                                                <ul class="text-warning text-start mt-0">
+                                                    <li>have length between 6 and 20</li>
+                                                    <li>has at least one special character</li>
+                                                    <li>has at least one upper character A-Z</li>
+                                                    <li>has at least one digit character 0-9</li>
+                                                </ul>
+                                            </div>
                                         </c:if>
 
                                         <div class="row">
@@ -119,6 +135,7 @@
                                                         id="typePasswordX-2"
                                                         class="form-control form-control-lg"
                                                         value="${lastname}"
+                                                        required
                                                         />
                                                     <label class="form-label" for="typePasswordX-2"
                                                            >Last name</label
@@ -137,6 +154,7 @@
                                                 id="typePasswordX-2"
                                                 class="form-control form-control-lg"
                                                 value="${email}"
+                                                required
                                                 />
                                             <label class="form-label" for="typePasswordX-2"
                                                    >Email</label

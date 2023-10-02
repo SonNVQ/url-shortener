@@ -64,11 +64,11 @@
 
                                     <!--<div>-->
                                     <div id="g_id_onload"
-                                         data-client_id="205125337007-vp8gcc90umgim1krgh90e6lcafj12obf.apps.googleusercontent.com"
-                                         data-context="use"
-                                         data-ux_mode="popup"
+                                         data-client_id="${initParam.GOOGLE_CLIENT_ID}"
+                                         data-context="signin"
+                                         data-ux_mode="redirect"
                                          data-login_uri="${pageContext.request.contextPath}/auth/login-google"
-                                         data-auto_prompt="false">
+                                         data-itp_support="true">
                                     </div>
 
                                     <div class="g_id_signin"
@@ -102,6 +102,7 @@
                                                 value="${username}"
                                                 id="typeUsernameX-2"
                                                 class="form-control form-control-lg"
+                                                required
                                                 />
                                             <label class="form-label" for="typeUsernameX-2"
                                                    >Username</label
@@ -118,6 +119,7 @@
                                                 value = "${password}"
                                                 id="typePasswordX-2"
                                                 class="form-control form-control-lg"
+                                                required
                                                 />
                                             <label class="form-label" for="typePasswordX-2"
                                                    >Password</label
@@ -148,6 +150,9 @@
                                             </div>
                                             <a href="${pageContext.request.contextPath}/auth/forgotPassword">Forgot password?</a>
                                         </div>
+                                        <c:if test="${isLoginFailed}">
+                                            <p class="text-danger text-start fw-bold mt-1">Username or password is incorect!</p>
+                                        </c:if>
                                         <button
                                             class="btn btn-primary btn-lg btn-block"
                                             type="submit"

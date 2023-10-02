@@ -4,14 +4,13 @@
     Author     : nguyenson
 --%>
 
-<%@page import="Models.User"%>
-<%@page import="Models.Role"%>
+<%@page import="com.urlshortener.Models.User"%>
+<%@page import="com.urlshortener.Models.Role"%>
 <%@page import="java.util.HashSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="Models.Url,java.time.LocalDateTime"%>
+<%@page import="com.urlshortener.Models.Url,java.time.LocalDateTime"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:useBean id="roleService" class="Services.Impl.RoleService" />
 <!DOCTYPE html>
 <html>
     <head>
