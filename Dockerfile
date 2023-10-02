@@ -4,6 +4,5 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM tomcat:10.1.13-jre11-temurin-jammy
-COPY --from=builder /build/target/url-shortener-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/app.jar
-EXPOSE 8080
+COPY --from=builder /build/target/url-shortener-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.jar
 CMD ["catalina.sh", "run"]

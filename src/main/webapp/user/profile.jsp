@@ -64,7 +64,7 @@
                                 disabled
                                 id="typePasswordX-2"
                                 class="form-control form-control-lg bg-white"
-                                value="test"
+                                value="${email}"
                                 />
                             <label class="form-label" for="typePasswordX-2">Email</label>
                         </div>
