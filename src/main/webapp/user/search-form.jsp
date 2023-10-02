@@ -5,10 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="Models.Url,java.time.LocalDateTime"%>
+<%@page import="com.urlshortener.Models.Url,java.time.LocalDateTime"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:useBean id="roleService" class="Services.Impl.RoleService" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -152,9 +151,6 @@
                         <th>Link</th>
                         <th>Title</th>
                         <th>Status</th>
-                        <!--                        <th>Passcode</th>
-                                                <th>R_Time</th>
-                                                <th>R_Message</th>-->
                         <th class="text-center">Created time</th>                        
                         <th>Note</th>                        
                         <th class="text-center">Action</th>
@@ -254,7 +250,7 @@
                                             <div class="modal-body">
                                                 <h5 class="text-warning" style="text-align: left;">
                                                     You are going to delete: 
-                                                    <a href="#">${initParam.domain}/${item.uid}</a>
+                                                    <a href="#">${initParam.FULL_DOMAIN}/${item.uid}</a>
                                                 </h5>
                                             </div>
                                             <div class="modal-footer">
@@ -268,7 +264,7 @@
                                     </div>
                                 </div>
 
-                                <c:if test="${isAdmin}">
+                                                    <c:if test="${isAdmin}">
                                     <a class="text-danger mx-1" href="#" data-mdb-toggle="modal" data-mdb-target="#ban-${item.id}">
                                         <i class="fa-solid fa-lock fa-lg"></i>
                                     </a>
@@ -284,7 +280,7 @@
                                                 <div class="modal-body">
                                                     <h5 class="text-warning" style="text-align: left;">
                                                         You are going to ban: 
-                                                        <a href="#">${initParam.domain}/${item.uid}</a>
+                                                        <a href="#">${initParam.SHORT_DOMAIN}/${item.uid}</a>
                                                     </h5>
                                                 </div>
                                                 <div class="modal-footer">
@@ -312,7 +308,7 @@
                                                 <div class="modal-body">
                                                     <h5 class="text-warning" style="text-align: left;">
                                                         You are going to unban: 
-                                                        <a href="#">${initParam.domain}/${item.uid}</a>
+                                                        <a href="#">${initParam.SHORT_DOMAIN}/${item.uid}</a>
                                                     </h5>
                                                 </div>
                                                 <div class="modal-footer">

@@ -6,7 +6,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:useBean id="roleService" class="Services.Impl.RoleService" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,7 +42,7 @@
                         <div class="row mb-4 g-2" >
                             <div class="col-lg-10" >
                                 <div class="form-outline mb-2">
-                                    <input type="text" name="link" id="link" class="form-control" style="height: 3rem; font-size: 1.2rem" />
+                                    <input type="text" name="link" id="link" class="form-control" style="height: 3rem; font-size: 1.2rem" required />
                                     <label class="form-label" for="link" style="font-size: 1.2rem" autocomplete="off">Put your link here</label>
                                 </div>
                             </div>
@@ -54,14 +53,10 @@
 
                         <c:if test="${not empty url}">
                             <p class="text-success fs-5 fw-bold">
-                                Your cute link: <a href="${url}" target="_blank">oi.io.vn/${url}</a>
-                                <!--                                <a class="btn text-white btn-lg btn-floating" style="background-color: #3b71ca;" 
-                                                                   role="button" 
-                                                                   onclick="navigator.clipboard.writeText('https://oi.io.vn/' + '${url}')">-->
+                                Your cute link: <a href="${url}" target="_blank">${initParam.SHORT_DOMAIN}/${url}</a>
                                 <i class="fab fa-solid fa-copy ms-2" 
                                    style ="cursor: pointer;"
-                                   onclick="navigator.clipboard.writeText('https://oi.io.vn/' + '${url}')"></i>
-                                <!--</a>-->
+                                   onclick="navigator.clipboard.writeText('${initParam.FULL_DOMAIN}/${url}')"></i>
                             </p>
                         </c:if>
 
@@ -126,7 +121,7 @@
         <%@include file="templates/footer.html" %>
         <c:if test="${roleService.isGuest(pageContext.request)}">
             <div id="g_id_onload"
-                 data-client_id="205125337007-vp8gcc90umgim1krgh90e6lcafj12obf.apps.googleusercontent.com"
+                 data-client_id="${initParam.GOOGLE_CLIENT_ID}"
                  data-context="signin"
                  data-ux_mode="popup"
                  data-login_uri="${pageContext.request.contextPath}/auth/login-google"
@@ -138,10 +133,8 @@
                                        function copyLink() {
                                            // Get the text field
                                            var copyText = 'https://oi.io.vn/' + ${url};
-
                                            // Copy the text inside the text field
                                            navigator.clipboard.writeText('https://oi.io.vn/' + ${url});
-
                                        }
         </script>
     </body>
